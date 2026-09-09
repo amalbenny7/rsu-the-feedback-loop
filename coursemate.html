@@ -1,0 +1,817 @@
+{embed="global/.header" title="CourseMate"}
+
+<link rel="icon" href="/favicon.ico">
+
+<link
+  rel="stylesheet"
+  href="https://assets-cdn.sums.digital/RD/digital_development/the-feedbackloop/css/global.css"
+>
+
+<script
+  defer
+  src="https://assets-cdn.sums.digital/RD/digital_development/the-feedbackloop/js/global.js"
+></script>
+
+<style>
+/* ==========================================================================
+   The FeedbackLoop - CourseMate
+   Page-specific styles only. Global page width and gutters come from global.css.
+   ========================================================================== */
+
+.cm-page {
+  overflow: hidden;
+  color: var(--color-navy);
+}
+
+.cm-page *,
+.cm-page *::before,
+.cm-page *::after {
+  box-sizing: border-box;
+}
+
+.cm-page h1,
+.cm-page h2,
+.cm-page h3,
+.cm-page p {
+  margin-top: 0;
+}
+
+.cm-page h1,
+.cm-page h2,
+.cm-page h3 {
+  color: var(--color-navy);
+  line-height: 1.08;
+}
+
+.cm-page h1 {
+  margin-bottom: 1rem;
+  font-size: clamp(2.7rem, 5vw, 4.5rem);
+}
+
+.cm-page h2 {
+  margin-bottom: 1rem;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+}
+
+.cm-page h3 {
+  margin-bottom: 0.55rem;
+  font-size: 1.12rem;
+}
+
+.cm-page p {
+  color: color-mix(in srgb, var(--color-navy) 74%, var(--color-white));
+  line-height: 1.7;
+}
+
+.cm-section {
+  padding-block: var(--section-space);
+}
+
+
+/* Hero ------------------------------------------------------------------- */
+
+.cm-hero {
+  padding-block: clamp(64px, 8vw, 100px);
+  background: var(--color-white);
+}
+
+.cm-hero__layout {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.82fr) minmax(0, 1.18fr);
+  align-items: center;
+  gap: clamp(46px, 7vw, 88px);
+}
+
+.cm-hero__copy {
+  max-width: 570px;
+}
+
+.cm-hero__copy > p {
+  margin-bottom: 1.5rem;
+  font-size: clamp(1rem, 1.25vw, 1.12rem);
+}
+
+.cm-hero__next {
+  margin: 1rem 0 0 !important;
+  font-size: 0.94rem !important;
+}
+
+.cm-hero__image {
+  min-width: 0;
+}
+
+.cm-hero__image img {
+  display: block;
+  width: 100%;
+  border: 1px solid #d7dce4;
+  border-radius: 4px;
+  background: var(--color-white);
+}
+
+
+/* About ------------------------------------------------------------------ */
+
+.cm-about {
+  background: var(--color-white);
+}
+
+.cm-about__layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(42px, 7vw, 90px);
+}
+
+.cm-about__intro {
+  max-width: 470px;
+}
+
+.cm-about__intro p {
+  margin-bottom: 0;
+  font-size: 1.05rem;
+}
+
+.cm-about__content {
+  max-width: 720px;
+}
+
+.cm-about__content p:last-child {
+  margin-bottom: 0;
+}
+
+
+/* Find your rep ---------------------------------------------------------- */
+
+.cm-reps__intro {
+  max-width: 720px;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+
+/* Access instructions ---------------------------------------------------- */
+
+.cm-access {
+  background: var(--color-white);
+}
+
+.cm-access > .page-container {
+  padding: clamp(32px, 5vw, 52px);
+  border: 1px solid #d7dce4;
+  border-radius: 4px;
+  background: #f2f4f6;
+}
+
+.cm-section__heading {
+  max-width: 720px;
+  margin-bottom: clamp(38px, 5vw, 56px);
+}
+
+.cm-section__heading p {
+  margin-bottom: 0;
+}
+
+.cm-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.cm-step {
+  min-width: 0;
+  padding-right: clamp(24px, 3vw, 42px);
+}
+
+.cm-step + .cm-step {
+  padding-left: clamp(24px, 3vw, 42px);
+  border-left: 1px solid var(--color-border);
+}
+
+.cm-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 20px;
+  color: var(--color-navy);
+}
+
+.cm-step:nth-child(1) .cm-icon {
+  color: #138eaa;
+}
+
+.cm-step:nth-child(2) .cm-icon {
+  color: #16945f;
+}
+
+.cm-step:nth-child(3) .cm-icon {
+  color: #c78700;
+}
+
+.cm-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+.cm-step__number {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--color-navy);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.cm-step p {
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+
+/* What happens next ------------------------------------------------------ */
+
+.cm-process {
+  background: var(--color-white);
+}
+
+.cm-process > .page-container {
+  padding: clamp(32px, 5vw, 52px);
+  border: 1px solid #bdd7c8;
+  border-radius: 4px;
+  background: #e7f3ec;
+}
+
+.cm-process__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.cm-process__item {
+  position: relative;
+  padding-right: clamp(22px, 3vw, 36px);
+}
+
+.cm-process__item + .cm-process__item {
+  padding-left: clamp(22px, 3vw, 36px);
+}
+
+.cm-process__item + .cm-process__item::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  background: color-mix(in srgb, var(--color-green) 38%, var(--color-white));
+}
+
+.cm-process__marker {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  background: var(--color-green);
+  color: var(--color-navy);
+  font-weight: 800;
+}
+
+.cm-process__item:nth-child(2) .cm-process__marker {
+  background: var(--color-cyan);
+}
+
+.cm-process__item:nth-child(3) .cm-process__marker {
+  background: var(--color-yellow);
+}
+
+.cm-process__item:nth-child(4) .cm-process__marker {
+  background: color-mix(in srgb, var(--color-pink) 78%, var(--color-white));
+}
+
+.cm-process__item p {
+  margin-bottom: 0;
+  font-size: 0.93rem;
+}
+
+
+/* Tracking --------------------------------------------------------------- */
+
+.cm-track {
+  background: var(--color-white);
+}
+
+.cm-track > .page-container {
+  padding: clamp(32px, 5vw, 52px);
+  border: 1px solid #dec77f;
+  border-radius: 4px;
+  background: #fff3d3;
+}
+
+.cm-track__layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(42px, 7vw, 90px);
+  align-items: start;
+}
+
+.cm-track__copy {
+  max-width: 440px;
+}
+
+.cm-track__copy p {
+  margin-bottom: 0;
+}
+
+.cm-track__items {
+  display: grid;
+  gap: 22px;
+}
+
+.cm-track__item {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 15px;
+  align-items: start;
+}
+
+.cm-track__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  color: var(--color-navy);
+}
+
+.cm-track__icon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.cm-track__item strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--color-navy);
+}
+
+.cm-track__item p {
+  margin-bottom: 0;
+  font-size: 0.94rem;
+}
+
+
+/* Final CTA -------------------------------------------------------------- */
+
+.cm-cta {
+  background: var(--color-white);
+}
+
+.cm-cta__panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: clamp(30px, 5vw, 48px);
+  border: 1px solid #a9cbd3;
+  border-radius: 4px;
+  background: #e4f3f6;
+}
+
+.cm-cta__copy {
+  max-width: 700px;
+}
+
+.cm-cta__copy h2 {
+  margin-bottom: 0.7rem;
+}
+
+.cm-cta__copy p {
+  margin-bottom: 0;
+}
+
+.cm-cta .button {
+  flex: 0 0 auto;
+}
+
+
+/* The FeedbackLoop reveal hooks ----------------------------------------- */
+
+.js [data-page-load],
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 420ms ease,
+    transform 420ms ease;
+}
+
+.js [data-page-load].is-visible,
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+
+/* Responsive ------------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .cm-hero__layout,
+  .cm-about__layout,
+  .cm-track__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .cm-process__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 34px 0;
+  }
+
+  .cm-process__item:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .cm-process__item:nth-child(3)::before {
+    display: none;
+  }
+
+  .cm-hero__copy,
+  .cm-about__intro,
+  .cm-about__content,
+  .cm-track__copy {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 760px) {
+  .cm-steps,
+  .cm-process__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cm-step,
+  .cm-process__item {
+    padding: 0;
+  }
+
+  .cm-step + .cm-step,
+  .cm-process__item + .cm-process__item {
+    padding: 30px 0 0;
+    border-top: 1px solid var(--color-border);
+    border-left: 0;
+  }
+
+  .cm-process__item + .cm-process__item::before {
+    display: none;
+  }
+
+  .cm-cta__panel {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .cm-hero {
+    padding-block: 52px;
+  }
+
+  .cm-hero__layout {
+    gap: 34px;
+  }
+
+  .cm-track__item {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .cm-track__icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .cm-cta .button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-page-load],
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+</style>
+
+
+<main class="cm-page">
+
+  <!-- Hero -->
+  <section class="cm-hero">
+    <div class="page-container cm-hero__layout">
+
+      <div class="cm-hero__copy" data-page-load>
+        <h1>CourseMate</h1>
+
+        <p>
+          Share feedback about your teaching, learning, assessment, academic
+          support or wider course experience via CourseMate on the Student
+          Dashboard.
+        </p>
+
+        <a class="button button--cyan" href="/sign-in">
+          Sign in to Student Dashboard
+          <span aria-hidden="true">→</span>
+        </a>
+
+        <p class="cm-hero__next">
+          After you sign in, select <strong>CourseMate</strong> from the
+          left-hand menu in your Student Dashboard.
+        </p>
+      </div>
+
+      <div class="cm-hero__image" data-page-load>
+        <img
+          src="https://assets-cdn.sums.digital/RD/digital_development/the-feedbackloop/assets/coursemate.png"
+          alt="CourseMate page inside the Reading SU Student Dashboard"
+        >
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- What is CourseMate -->
+  <section class="cm-about cm-section">
+    <div class="page-container cm-about__layout">
+
+      <div class="cm-about__intro" data-reveal>
+        <h2>What is CourseMate?</h2>
+        <p>
+          Share course feedback and follow what happens next.
+        </p>
+      </div>
+
+      <div class="cm-about__content" data-reveal>
+        <p>
+          Your feedback will be reviewed and shared with your representatives,
+          who will work with the University to respond.
+        </p>
+
+        <p>
+          Once they have an update, you will receive an email from your rep.
+          You can also return to CourseMate to check the progress of your
+          submission.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Find your rep -->
+  <section class="cm-reps cm-section">
+    <div class="page-container">
+      <p class="cm-reps__intro" data-reveal>
+        Find out who your reps are here.
+      </p>
+
+      <div data-reveal>
+        {embed="the-feedback-loop/.find-your-rep"}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- How to access -->
+  <section class="cm-access cm-section">
+    <div class="page-container">
+
+      <div class="cm-section__heading" data-reveal>
+        <h2>How to access CourseMate</h2>
+        <p>
+          CourseMate is inside your Student Dashboard. Follow these three steps
+          to open it and submit feedback.
+        </p>
+      </div>
+
+      <div class="cm-steps">
+
+        <article class="cm-step" data-reveal>
+          <div class="cm-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+              <polyline points="10 17 15 12 10 7"/>
+              <line x1="15" y1="12" x2="3" y2="12"/>
+            </svg>
+          </div>
+
+          <span class="cm-step__number">01</span>
+          <h3>Sign in to Student Dashboard</h3>
+          <p>
+            Select <strong>Sign in to Student Dashboard</strong> on this page
+            and sign in with your University account.
+          </p>
+        </article>
+
+
+        <article class="cm-step" data-reveal>
+          <div class="cm-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <line x1="8" y1="3" x2="8" y2="21"/>
+              <line x1="11" y1="8" x2="18" y2="8"/>
+              <line x1="11" y1="12" x2="18" y2="12"/>
+              <line x1="11" y1="16" x2="16" y2="16"/>
+            </svg>
+          </div>
+
+          <span class="cm-step__number">02</span>
+          <h3>Open CourseMate</h3>
+          <p>
+            In the Student Dashboard, find <strong>CourseMate</strong> in the
+            left-hand menu and select it.
+          </p>
+        </article>
+
+
+        <article class="cm-step" data-reveal>
+          <div class="cm-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16v12H7l-3 3V4z"/>
+              <line x1="8" y1="8" x2="16" y2="8"/>
+              <line x1="8" y1="12" x2="14" y2="12"/>
+            </svg>
+          </div>
+
+          <span class="cm-step__number">03</span>
+          <h3>Submit your feedback</h3>
+          <p>
+            Enter a short title and your course feedback, then select
+            <strong>Submit</strong>.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- What happens after submission -->
+  <section class="cm-process cm-section">
+    <div class="page-container">
+
+      <div class="cm-section__heading" data-reveal>
+        <h2>What happens after you submit?</h2>
+        <p>
+          Your feedback is reviewed and shared with your representatives, who
+          will work with the University to respond. You can follow its progress
+          in CourseMate.
+        </p>
+      </div>
+
+      <div class="cm-process__grid">
+
+        <article class="cm-process__item" data-reveal>
+          <span class="cm-process__marker">1</span>
+          <h3>Submission received</h3>
+          <p>
+            CourseMate records your feedback and you receive an email
+            confirming it has been received.
+          </p>
+        </article>
+
+        <article class="cm-process__item" data-reveal>
+          <span class="cm-process__marker">2</span>
+          <h3>Reviewed by the SU</h3>
+          <p>
+            Reading Students' Union reviews your feedback before it is shared
+            with the relevant representatives.
+          </p>
+        </article>
+
+        <article class="cm-process__item" data-reveal>
+          <span class="cm-process__marker">3</span>
+          <h3>Shared with your reps</h3>
+          <p>
+            Your representatives can work with the University to respond to
+            the feedback and take any appropriate action forward.
+          </p>
+        </article>
+
+        <article class="cm-process__item" data-reveal>
+          <span class="cm-process__marker">4</span>
+          <h3>Keep up with updates</h3>
+          <p>
+            When there is an update, you will receive an email from your rep
+            and can return to CourseMate to check the submission.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Tracking -->
+  <section class="cm-track cm-section">
+    <div class="page-container cm-track__layout">
+
+      <div class="cm-track__copy" data-reveal>
+        <h2>Check your submissions</h2>
+        <p>
+          Your feedback stays in CourseMate so you can come back and see its
+          current status and any updates.
+        </p>
+      </div>
+
+      <div class="cm-track__items" data-reveal>
+
+        <div class="cm-track__item">
+          <span class="cm-track__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+          </span>
+
+          <div>
+            <strong>Submitted / In Progress</strong>
+            <p>
+              Submitted means your feedback is being reviewed by the SU. In
+              Progress means it has been assigned to a Rep.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="cm-track__item">
+          <span class="cm-track__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <polyline points="8 12 11 15 16 9"/>
+            </svg>
+          </span>
+
+          <div>
+            <strong>Completed</strong>
+            <p>
+              Completed feedback appears in the Completed tab with the outcome
+              and any comments added during the process.
+            </p>
+          </div>
+        </div>
+
+
+        <div class="cm-track__item">
+          <span class="cm-track__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 3h7v7"/>
+              <path d="M10 14 21 3"/>
+              <path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/>
+            </svg>
+          </span>
+
+          <div>
+            <strong>View a submission</strong>
+            <p>
+              Open an individual submission to see when it was reviewed,
+              assigned or updated and which Rep is working on it.
+            </p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Final CTA -->
+  <section class="cm-cta cm-section">
+    <div class="page-container">
+
+      <div class="cm-cta__panel" data-reveal>
+        <div class="cm-cta__copy">
+          <h2>Go to your Student Dashboard</h2>
+          <p>
+            Sign in, then select CourseMate from the left-hand menu to submit
+            feedback or check an existing submission.
+          </p>
+        </div>
+
+        <a class="button button--cyan" href="/sign-in">
+          Sign in to Student Dashboard
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+{embed="global/.footer"}

@@ -1,0 +1,451 @@
+<style>
+.president-updates {
+  --updates-green: var(--color-green);
+  --updates-navy: var(--color-navy);
+  --updates-border: rgba(13, 29, 59, 0.14);
+  --updates-muted: rgba(13, 29, 59, 0.62);
+  --updates-tint: rgba(40, 206, 140, 0.075);
+  --updates-content-width: 1280px;
+
+  padding-block: clamp(64px, 7vw, 92px);
+  border-top: 1px solid var(--color-border);
+}
+
+.president-updates__inner {
+  width: min(100%, var(--updates-content-width));
+  margin-inline: auto;
+}
+
+.president-updates a,
+.president-updates a:visited,
+.president-updates a:hover,
+.president-updates a:focus-visible,
+.president-updates a * {
+  text-decoration: none !important;
+}
+
+.president-updates__heading {
+  max-width: 800px;
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.president-updates__heading h2 {
+  margin: 0 0 10px;
+  color: var(--updates-navy);
+  font-size: clamp(2rem, 3.4vw, 3rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.president-updates__heading p {
+  max-width: 720px;
+  margin: 0;
+  color: rgba(13, 29, 59, 0.72);
+  font-size: 1.04rem;
+  line-height: 1.65;
+}
+
+.president-update--featured {
+  max-width: 1040px;
+  margin-bottom: clamp(30px, 4vw, 42px);
+  overflow: hidden;
+  border: 1px solid rgba(40, 206, 140, 0.24);
+  border-radius: 14px;
+  background: var(--updates-tint);
+}
+
+.president-update--featured .president-update__link {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.92fr) minmax(0, 1.08fr);
+  align-items: stretch;
+  color: var(--updates-navy);
+}
+
+.president-update--featured .president-update__image {
+  min-height: 275px;
+  overflow: hidden;
+  background: #eef1f4;
+}
+
+.president-update--featured .president-update__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.president-update--featured .president-update__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(26px, 3.2vw, 42px);
+}
+
+.president-update__latest {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: var(--updates-navy);
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.president-update__latest-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--updates-green);
+  box-shadow: 0 0 0 0 rgba(40, 206, 140, 0.42);
+  animation: president-update-pulse 2.2s ease-out infinite;
+}
+
+@keyframes president-update-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(40, 206, 140, 0.42); }
+  70% { box-shadow: 0 0 0 9px rgba(40, 206, 140, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(40, 206, 140, 0); }
+}
+
+.president-update__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin-bottom: 10px;
+}
+
+.president-update__type {
+  color: var(--updates-green);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.president-update__date {
+  color: var(--updates-muted);
+  font-size: 0.9rem;
+}
+
+.president-update--featured h3 {
+  max-width: 560px;
+  margin: 0 0 20px;
+  color: var(--updates-navy);
+  font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+}
+
+.president-update__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  width: fit-content;
+  color: var(--updates-green);
+  font-size: 0.95rem;
+  font-weight: 850;
+}
+
+.president-update__action-arrow {
+  transition: transform 160ms ease;
+}
+
+.president-update__link:hover .president-update__action-arrow,
+.president-update__link:focus-visible .president-update__action-arrow {
+  transform: translateX(3px);
+}
+
+.president-update__link:focus-visible {
+  outline: 3px solid var(--updates-green);
+  outline-offset: 4px;
+}
+
+.president-updates__more {
+  margin-bottom: 10px;
+}
+
+.president-updates__more h3 {
+  margin: 0;
+  color: var(--updates-navy);
+  font-size: 1.05rem;
+  font-weight: 850;
+}
+
+.president-updates__list {
+  max-width: 1040px;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid var(--updates-border);
+  list-style: none;
+}
+
+.president-update--row {
+  border-top: 1px solid var(--updates-border);
+  content-visibility: auto;
+  contain-intrinsic-size: 132px;
+}
+
+.president-update--row .president-update__link {
+  display: grid;
+  grid-template-columns: 160px minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+  padding: 20px 0;
+  color: var(--updates-navy);
+}
+
+.president-update--row .president-update__image {
+  width: 160px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 7px;
+  background: #eef1f4;
+}
+
+.president-update--row .president-update__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.president-update--row .president-update__content {
+  min-width: 0;
+}
+
+.president-update--row h3 {
+  margin: 0 0 8px;
+  color: var(--updates-navy);
+  font-size: clamp(1.08rem, 1.55vw, 1.32rem);
+  line-height: 1.28;
+  letter-spacing: -0.012em;
+}
+
+.president-update--row .president-update__action {
+  white-space: nowrap;
+}
+
+@media (max-width: 860px) {
+  .president-update--featured {
+    max-width: none;
+  }
+
+  .president-update--featured .president-update__link {
+    grid-template-columns: 1fr;
+  }
+
+  .president-update--featured .president-update__image {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .president-update--featured .president-update__content {
+    padding: clamp(24px, 5vw, 38px);
+  }
+
+  .president-update--row .president-update__link {
+    grid-template-columns: 132px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .president-update--row .president-update__image {
+    width: 132px;
+  }
+
+  .president-update--row .president-update__action {
+    grid-column: 2;
+  }
+}
+
+@media (max-width: 560px) {
+  .president-update--featured {
+    margin-bottom: 30px;
+    border-radius: 10px;
+  }
+
+  .president-update--featured .president-update__image {
+    aspect-ratio: 16 / 9;
+  }
+
+  .president-update--featured .president-update__content {
+    padding: 24px 20px 26px;
+  }
+
+  .president-update__latest {
+    margin-bottom: 14px;
+    font-size: 0.7rem;
+  }
+
+  .president-update--featured h3 {
+    margin-bottom: 16px;
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+
+  .president-updates__more {
+    margin-bottom: 6px;
+  }
+
+  .president-update--row .president-update__link {
+    grid-template-columns: 104px minmax(0, 1fr);
+    gap: 14px;
+    padding: 17px 0;
+  }
+
+  .president-update--row .president-update__image {
+    width: 104px;
+    border-radius: 6px;
+  }
+
+  .president-update--row .president-update__meta {
+    gap: 5px 9px;
+    margin-bottom: 5px;
+  }
+
+  .president-update--row .president-update__type {
+    font-size: 0.66rem;
+  }
+
+  .president-update--row .president-update__date {
+    font-size: 0.8rem;
+  }
+
+  .president-update--row h3 {
+    margin-bottom: 7px;
+    font-size: 0.98rem;
+  }
+
+  .president-update--row .president-update__action {
+    font-size: 0.84rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .president-update__latest-dot {
+    animation: none;
+  }
+
+  .president-update__action-arrow {
+    transition: none;
+  }
+}
+</style>
+
+<section class="page-container president-updates">
+  <div class="president-updates__inner">
+
+    <div class="president-updates__heading">
+      <h2>Latest from your Presidents</h2>
+      <p>
+        Read monthly updates from your Presidents on what they have been doing,
+        the progress they have made and what is coming next.
+      </p>
+    </div>
+
+    <!-- EDIT CATEGORY ID HERE -->
+    {exp:channel:entries
+      channel="news|blogs"
+      limit="6"
+      category="5"
+      orderby="date"
+      sort="desc"
+      dynamic="no"
+    }
+
+      {if count == "1"}
+        <article class="president-update president-update--featured">
+          <a href="/whats-on/articles/{url_title}" class="president-update__link">
+
+            <div class="president-update__image">
+              {if channel_id == "9"}
+                {if blog_thumbnail == ""}
+                  <img src="https://assets-cdn.sums.digital/RD/website-assets/Images/website-images/RSU-DEEPBLUE-LOGO-RGB.webp" alt="" width="720" height="450" loading="eager" decoding="async" fetchpriority="high">
+                {if:else}
+                  <img src="{blog_thumbnail}" alt="" width="720" height="450" loading="eager" decoding="async" fetchpriority="high">
+                {/if}
+              {/if}
+
+              {if channel_id == "8"}
+                {if news_thumbnail == ""}
+                  <img src="https://assets-cdn.sums.digital/RD/website-assets/Images/website-images/RSU-DEEPBLUE-LOGO-RGB.webp" alt="" width="720" height="450" loading="eager" decoding="async" fetchpriority="high">
+                {if:else}
+                  <img src="{news_thumbnail}" alt="" width="720" height="450" loading="eager" decoding="async" fetchpriority="high">
+                {/if}
+              {/if}
+            </div>
+
+            <div class="president-update__content">
+              <div class="president-update__latest">
+                <span class="president-update__latest-dot" aria-hidden="true"></span>
+                Latest update
+              </div>
+
+              <div class="president-update__meta">
+                <span class="president-update__type">{if channel_id == "9"}Blog{if:else}News{/if}</span>
+                <span class="president-update__date">{entry_date format="%F %j, %Y"}</span>
+              </div>
+
+              <h3>{title}</h3>
+
+              <span class="president-update__action">
+                Read update
+                <span class="president-update__action-arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+
+          </a>
+        </article>
+
+        <div class="president-updates__more">
+          <h3>More updates</h3>
+        </div>
+
+        <ul class="president-updates__list">
+      {if:else}
+        <li class="president-update president-update--row">
+          <a href="/whats-on/articles/{url_title}" class="president-update__link">
+
+            <div class="president-update__image">
+              {if channel_id == "9"}
+                {if blog_thumbnail == ""}
+                  <img src="https://assets-cdn.sums.digital/RD/website-assets/Images/website-images/RSU-DEEPBLUE-LOGO-RGB.webp" alt="" width="320" height="200" loading="lazy" decoding="async">
+                {if:else}
+                  <img src="{blog_thumbnail}" alt="" width="320" height="200" loading="lazy" decoding="async">
+                {/if}
+              {/if}
+
+              {if channel_id == "8"}
+                {if news_thumbnail == ""}
+                  <img src="https://assets-cdn.sums.digital/RD/website-assets/Images/website-images/RSU-DEEPBLUE-LOGO-RGB.webp" alt="" width="320" height="200" loading="lazy" decoding="async">
+                {if:else}
+                  <img src="{news_thumbnail}" alt="" width="320" height="200" loading="lazy" decoding="async">
+                {/if}
+              {/if}
+            </div>
+
+            <div class="president-update__content">
+              <div class="president-update__meta">
+                <span class="president-update__type">{if channel_id == "9"}Blog{if:else}News{/if}</span>
+                <span class="president-update__date">{entry_date format="%F %j, %Y"}</span>
+              </div>
+
+              <h3>{title}</h3>
+
+              <span class="president-update__action">
+                Read update
+                <span class="president-update__action-arrow" aria-hidden="true">→</span>
+              </span>
+            </div>
+
+          </a>
+        </li>
+      {/if}
+
+      {if count == total_results}
+        </ul>
+      {/if}
+
+    {/exp:channel:entries}
+
+  </div>
+</section>

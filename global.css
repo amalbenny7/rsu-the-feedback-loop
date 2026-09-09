@@ -1,0 +1,202 @@
+/* ==========================================================================
+   Reading SU – Global Styles
+   Shared brand tokens, fixed project margins and responsive defaults
+   ========================================================================== */
+
+:root {
+  /* Brand colours */
+  --color-navy: #0D1D3B;
+  --color-white: #FFFFFF;
+  --color-yellow: #FFB411;
+  --color-green: #2ED28B;
+  --color-pink: #FF1758;
+  --color-cyan: #1EB9DC;
+
+  /* Functional colours */
+  --color-text: var(--color-navy);
+  --color-bg: var(--color-white);
+  --color-border: rgba(13, 29, 59, 0.14);
+
+  /* Layout */
+  --page-gutter: 72px;
+  --section-space: 88px;
+
+  /* UI */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --transition: 180ms ease;
+}
+
+/* Reset / base ------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+/* Main page layout -------------------------------------------------------- */
+
+/*
+ * One fixed project margin.
+ * No max-width cap and no large-screen-specific behaviour.
+ */
+.page-container,
+.hub-container {
+  width: calc(100% - (var(--page-gutter) * 2)) !important;
+  margin-left: var(--page-gutter) !important;
+  margin-right: var(--page-gutter) !important;
+  max-width: none !important;
+}
+
+/* Make the existing homepage title/banner obey the same global margins. */
+.hub-page-heading,
+.hub-banner {
+  width: calc(100% - (var(--page-gutter) * 2)) !important;
+  margin-left: var(--page-gutter) !important;
+  margin-right: var(--page-gutter) !important;
+  max-width: none !important;
+}
+
+.page-section {
+  padding-block: var(--section-space);
+}
+
+.page-section--compact {
+  padding-block: calc(var(--section-space) * 0.6);
+}
+
+/* Basic reusable UI ------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--color-navy);
+  color: var(--color-white);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--color-yellow);
+  outline-offset: 3px;
+}
+
+.surface {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+/* Brand utility classes -------------------------------------------------- */
+
+.bg-navy   { background: var(--color-navy); }
+.bg-yellow { background: var(--color-yellow); }
+.bg-green  { background: var(--color-green); }
+.bg-pink   { background: var(--color-pink); }
+.bg-cyan   { background: var(--color-cyan); }
+
+.text-navy   { color: var(--color-navy); }
+.text-yellow { color: var(--color-yellow); }
+.text-green  { color: var(--color-green); }
+.text-pink   { color: var(--color-pink); }
+.text-cyan   { color: var(--color-cyan); }
+.text-white  { color: var(--color-white); }
+
+/* Responsive defaults ---------------------------------------------------- */
+
+@media (max-width: 900px) {
+  :root {
+    --page-gutter: 40px;
+    --section-space: 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --page-gutter: 20px;
+    --section-space: 48px;
+  }
+
+  .button {
+    width: 100%;
+  }
+}
+
+
+
+/* Large screens ----------------------------------------------------------- */
+/* Keep the normal 72px desktop margins unchanged.
+   Only stop the project from stretching excessively on very wide displays. */
+
+@media (min-width: 1900px) {
+  .page-container,
+  .hub-container,
+  .hub-page-heading,
+  .hub-banner {
+    width: 1760px !important;
+    max-width: 1760px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

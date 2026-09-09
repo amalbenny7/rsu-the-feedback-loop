@@ -1,0 +1,375 @@
+<!-- ============================================================
+     FIND YOUR REP COMPONENT
+     Search by rep name, course, school or role.
+     ============================================================ -->
+
+<style>
+.rep-finder {
+  --rep-navy: var(--color-navy, #0d1d3b);
+  --rep-cyan: var(--color-cyan, #1eb9dc);
+  --rep-white: var(--color-white, #fff);
+  --rep-border: var(--color-border, #d8dde5);
+  width: 100%;
+  padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  border: 2px solid var(--rep-cyan);
+  border-radius: 4px;
+  color: var(--rep-navy);
+}
+
+.rep-finder *,
+.rep-finder *::before,
+.rep-finder *::after {
+  box-sizing: border-box;
+}
+
+.rep-finder__header {
+  margin-bottom: 1.6rem;
+}
+
+.rep-finder__header h3 {
+  margin: 0 0 0.45rem;
+  color: var(--rep-navy);
+  font-size: clamp(1.7rem, 2.8vw, 2.2rem);
+  line-height: 1.12;
+}
+
+.rep-finder__header p {
+  max-width: 620px;
+  margin: 0;
+  color: color-mix(in srgb, var(--rep-navy) 72%, var(--rep-white));
+  line-height: 1.6;
+}
+
+.rep-finder__search {
+  position: relative;
+}
+
+.rep-finder__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--rep-navy);
+  font-weight: 700;
+}
+
+.rep-finder__input-wrap {
+  position: relative;
+}
+
+.rep-finder__icon {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--rep-navy);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.rep-finder__input {
+  width: 100%;
+  min-height: 56px;
+  padding: 0.85rem 5.25rem 0.85rem 3rem;
+  border: 2px solid var(--rep-navy);
+  border-radius: 3px;
+  background: var(--rep-white);
+  color: var(--rep-navy);
+  font: inherit;
+}
+
+.rep-finder__input::placeholder {
+  color: color-mix(in srgb, var(--rep-navy) 48%, var(--rep-white));
+}
+
+.rep-finder__input:focus {
+  border-color: var(--rep-navy);
+  outline: none;
+}
+
+.rep-finder__clear {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  display: none;
+  padding: 0.35rem 0.55rem;
+  border: 0;
+  background: transparent;
+  color: var(--rep-navy);
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  transform: translateY(-50%);
+}
+
+.rep-finder__clear.is-visible {
+  display: block;
+}
+
+.rep-finder__status {
+  min-height: 1.5rem;
+  margin: 0.75rem 0 0;
+  color: color-mix(in srgb, var(--rep-navy) 68%, var(--rep-white));
+  font-size: 0.9rem;
+}
+
+.rep-finder__results {
+  display: none;
+  margin: 1.35rem 0 0;
+  padding: 0;
+  border-top: 1px solid var(--rep-border);
+  list-style: none;
+}
+
+.rep-finder__results.is-visible {
+  display: block;
+}
+
+.rep-finder__result {
+  display: grid;
+  grid-template-columns: minmax(170px, 0.75fr) minmax(0, 1.25fr);
+  gap: 1rem 2rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--rep-border);
+}
+
+.rep-finder__name {
+  min-width: 0;
+}
+
+.rep-finder__name strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: var(--rep-navy);
+  font-size: 1rem;
+}
+
+.rep-finder__name span {
+  color: var(--rep-cyan);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.rep-finder__details {
+  min-width: 0;
+}
+
+.rep-finder__details p {
+  margin: 0;
+  color: color-mix(in srgb, var(--rep-navy) 76%, var(--rep-white));
+  line-height: 1.45;
+}
+
+.rep-finder__details small {
+  display: block;
+  margin-top: 0.3rem;
+  color: color-mix(in srgb, var(--rep-navy) 58%, var(--rep-white));
+  line-height: 1.4;
+}
+
+.rep-finder__empty {
+  margin: 1.25rem 0 0;
+  padding: 1rem 0;
+  border-top: 1px solid var(--rep-border);
+  color: color-mix(in srgb, var(--rep-navy) 70%, var(--rep-white));
+}
+
+@media (max-width: 640px) {
+  .rep-finder {
+    padding: 1rem;
+  }
+
+  .rep-finder__result {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .rep-finder__input {
+    padding-right: 4.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rep-finder__input {
+    scroll-behavior: auto;
+  }
+}
+</style>
+
+<div class="rep-finder" data-rep-finder>
+  <div class="rep-finder__header">
+    <h3>Find your rep</h3>
+    <p>
+      Search by your course, school or a representative's name.
+    </p>
+  </div>
+
+  <div class="rep-finder__search">
+    <label class="rep-finder__label" for="rep-finder-search">
+      Search for a Course or Senior Rep
+    </label>
+
+    <div class="rep-finder__input-wrap">
+      <svg
+        class="rep-finder__icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="7"></circle>
+        <path d="m20 20-3.5-3.5"></path>
+      </svg>
+
+      <input
+        class="rep-finder__input"
+        id="rep-finder-search"
+        type="search"
+        inputmode="search"
+        autocomplete="off"
+        placeholder="e.g. Psychology Year 2, School of Law or a rep name"
+        aria-controls="rep-finder-results"
+        aria-describedby="rep-finder-status"
+      >
+
+      <button
+        class="rep-finder__clear"
+        type="button"
+        aria-label="Clear rep search"
+      >
+        Clear
+      </button>
+    </div>
+
+    <p
+      class="rep-finder__status"
+      id="rep-finder-status"
+      role="status"
+      aria-live="polite"
+    >
+      Start typing to find your rep.
+    </p>
+  </div>
+
+  <ul
+    class="rep-finder__results"
+    id="rep-finder-results"
+    aria-label="Representative search results"
+  ></ul>
+
+  <p class="rep-finder__empty" hidden>
+    No representatives match that search. Try your course name, school or a broader search term.
+  </p>
+</div>
+
+<script>
+(() => {
+  const root = document.querySelector("[data-rep-finder]");
+  if (!root) return;
+
+  const reps = [["Anjani Morker","Undergraduate Course Rep","Environmental Management & Sustainability Year 1","School of Agriculture, Policy & Development"],["Noa Jerez-Corbin","Undergraduate Course Rep","Environmental Management & Sustainability Year 2","School of Agriculture, Policy & Development"],["Jack Tompkins","Undergraduate Course Rep","Environmental Management & Sustainability Year 2","School of Agriculture, Policy & Development"],["Isabella Weston","Undergraduate Course Rep","Environmental Management & Sustainability Year 2","School of Agriculture, Policy & Development"],["Szymon Tomaszewski","Undergraduate Course Rep","International Development Year 1","School of Agriculture, Policy & Development"],["Mia Hopkins","Undergraduate Course Rep","International Development Year 2","School of Agriculture, Policy & Development"],["Ruby Noon","Undergraduate Course Rep","International Development Year 2","School of Agriculture, Policy & Development"],["Sholto Fox","Undergraduate Course Rep","Marketing Year 1","School of Agriculture, Policy & Development"],["Abisarash Subburaman Jeyalakshmi","Undergraduate Course Rep","Marketing Year 2","School of Agriculture, Policy & Development"],["Celestia Goodall","Undergraduate Course Rep","Archaeology Year 2","School of Archaeology, Geography & Environmental Science"],["Tess Fox","Undergraduate Course Rep","Archaeology (Joint) Year 2","School of Archaeology, Geography & Environmental Science"],["Izzy Goldsmith","Undergraduate Course Rep","Archaeology (Joint) Year 3","School of Archaeology, Geography & Environmental Science"],["Amelia Smith","Undergraduate Course Rep","Geography (Human) Year 2","School of Archaeology, Geography & Environmental Science"],["George Whitchurch","Undergraduate Course Rep","Geography (Human) Year 2","School of Archaeology, Geography & Environmental Science"],["Maya Williams","Undergraduate Course Rep","Geography (Physical) Year 1","School of Archaeology, Geography & Environmental Science"],["Kieran Ayre","Undergraduate Course Rep","Geography (Physical) Year 3","School of Archaeology, Geography & Environmental Science"],["Dan Rogers","Undergraduate Course Rep","Geography (Physical) Year 3","School of Archaeology, Geography & Environmental Science"],["Issy Pitt","Undergraduate Course Rep","Geography (Human and Physical) Year 1","School of Archaeology, Geography & Environmental Science"],["Mithul Ganesh Babu","Undergraduate Course Rep","Geography (Human and Physical) Year 2","School of Archaeology, Geography & Environmental Science"],["Mikey Rugeroni","Undergraduate Course Rep","Geography (Human and Physical) Year 2","School of Archaeology, Geography & Environmental Science"],["Charitha Garadannagari","Undergraduate Course Rep","Geography (Human and Physical) Year 2","School of Archaeology, Geography & Environmental Science"],["Nandini Mehrotra","Undergraduate Course Rep","Geography and Economics Year 2","School of Archaeology, Geography & Environmental Science"],["Sebastian Nicholas Miro","Undergraduate Course Rep","Geography and Economics Year 2","School of Archaeology, Geography & Environmental Science"],["Rehya Deol","Undergraduate Course Rep","Geography and Economics Year 2","School of Archaeology, Geography & Environmental Science"],["Tomas Lorenz","Undergraduate Course Rep","Environmental Science Year 1","School of Archaeology, Geography & Environmental Science"],["Olly Charman","Undergraduate Course Rep","Environmental Science Year 1","School of Archaeology, Geography & Environmental Science"],["Jasmine Rosher","Undergraduate Course Rep","Environmental Science Year 2","School of Archaeology, Geography & Environmental Science"],["Elsie Connick Rowden","Undergraduate Course Rep","Art (joint psychology) Year 2","School of Art & Communication Design"],["Aya Al Tamimi","Undergraduate Course Rep","Art (joint psychology) Year 3","School of Art & Communication Design"],["Leila Carter","Undergraduate Course Rep","Art (joint english lit) Year 2","School of Art & Communication Design"],["Rebecca Edwards","Undergraduate Course Rep","Art (joint english lit) Year 3","School of Art & Communication Design"],["Elsie Cooke","Undergraduate Course Rep","Art (joint Philosophy) Year 2","School of Art & Communication Design"],["Lianne Chung","Undergraduate Course Rep","Art (joint film / theatre) Year 3","School of Art & Communication Design"],["Charlotte Paxford","Undergraduate Course Rep","Art Year 2","School of Art & Communication Design"],["Max Benbow","Undergraduate Course Rep","Fine Art Year 1","School of Art & Communication Design"],["Amber Haley","Undergraduate Course Rep","Fine Art Year 1","School of Art & Communication Design"],["Robbie Whittall","Undergraduate Course Rep","Film and TV Year One","School of Art & Communication Design"],["Iman Wasily","Undergraduate Course Rep","Film and TV Year Three","School of Art & Communication Design"],["Yena Seo","Undergraduate Course Rep","Typography & Graphic Communication Year 1","School of Art & Communication Design"],["Amelie White","Undergraduate Course Rep","Typography & Graphic Communication Year 1","School of Art & Communication Design"],["Ben Meyer","Undergraduate Course Rep","Typography & Graphic Communication Year 2","School of Art & Communication Design"],["Loanne Le","Undergraduate Course Rep","Typography & Graphic Communication Year 2","School of Art & Communication Design"],["Zaynab Farooque","Undergraduate Course Rep","Typography & Graphic Communication Year 3","School of Art & Communication Design"],["Harry Herd","Undergraduate Course Rep","Typography & Graphic Communication Year 3","School of Art & Communication Design"],["Sarah Pervaiz","Undergraduate Course Rep","Biochemistry Year 1","School of Biological Sciences"],["Rebecca White","Undergraduate Course Rep","Biochemistry Year 2","School of Biological Sciences"],["Simi Omoni","Undergraduate Course Rep","Biochemistry Year 3","School of Biological Sciences"],["Sama Osman","Undergraduate Course Rep","Biological Sciences Year 1","School of Biological Sciences"],["Kevin Masukume","Undergraduate Course Rep","Biological Sciences Year 1","School of Biological Sciences"],["Helena Kahn","Undergraduate Course Rep","Biological Sciences Year 2","School of Biological Sciences"],["Charley Guelbert","Undergraduate Course Rep","Biological Sciences Year 2","School of Biological Sciences"],["Dan Temple","Undergraduate Course Rep","Biological Sciences Year 3","School of Biological Sciences"],["Hannah Shorrocks","Undergraduate Course Rep","Biological Sciences Year 3","School of Biological Sciences"],["Jasmine Beard","Undergraduate Course Rep","Ecology and Wildlife Conservation Year 2","School of Biological Sciences"],["Taeya Bierling","Undergraduate Course Rep","Ecology and Wildlife Conservation Year 3","School of Biological Sciences"],["Guy Di Vito","Undergraduate Course Rep","Biomedical Sciences Year 1","School of Biological Sciences"],["Madhu Satkunaseelan","Undergraduate Course Rep","Biomedical Sciences Year 2","School of Biological Sciences"],["Shaina Forbes","Undergraduate Course Rep","Biomedical Sciences Year 2","School of Biological Sciences"],["Fatima Faisal","Undergraduate Course Rep","Biomedical Sciences Year 3","School of Biological Sciences"],["Georgie Ashby","Undergraduate Course Rep","Microbiology Year 1","School of Biological Sciences"],["Rowan Fearnley","Undergraduate Course Rep","Microbiology Year 2","School of Biological Sciences"],["Jude Ojomoh","Undergraduate Course Rep","Microbiology Year 3","School of Biological Sciences"],["Gabriella Wadey","Undergraduate Course Rep","Zoology Year 1","School of Biological Sciences"],["Tegan Hurley","Undergraduate Course Rep","Zoology Year 2","School of Biological Sciences"],["Katie Bradley","Undergraduate Course Rep","Zoology Year 3","School of Biological Sciences"],["Damia binti Hj Md Khairul Anwar","Undergraduate Course Rep","Medical Science Year 1","School of Biological Sciences"],["Jahnvi Gupta","Undergraduate Course Rep","Medical Science Year 2","School of Biological Sciences"],["Zara Quraishi","Undergraduate Course Rep","Medical Science Year 3","School of Biological Sciences"],["Bianca Ambata","Undergraduate Course Rep","Biomedical Engineering Year 1","School of Biological Sciences"],["Luc Sauvage","Undergraduate Course Rep","Biomedical Engineering Year 2","School of Biological Sciences"],["Abdel Rahman Mousa","Undergraduate Course Rep","Biomedical Engineering Year 3","School of Biological Sciences"],["Thanvi Buddharaju","Undergraduate Course Rep","Biomedical Engineering Year 4","School of Biological Sciences"],["Hiyaw Kebede Girmay","Undergraduate Course Rep","Biomolecular Foundation Year (Inc. Biochemistry, Biomedical Sciences, Microbiology, Medical Science)","School of Biological Sciences"],["Tilly Williams","Undergraduate Course Rep","Ecology / Zoology Foundation Year (Inc. Biological Sciences, Ecology and Wildlife Conservation, Zoology","School of Biological Sciences"],["Daniel Parmar","Undergraduate Course Rep","Construction Management and Surveying Courses Year 2","School of Built Environment"],["Otto Wong","Undergraduate Course Rep","Construction Management and Surveying Courses Year 2","School of Built Environment"],["Victoria Baykeens","Undergraduate Course Rep","Architecture Year 1","School of Built Environment"],["Annabelle Sandercock","Undergraduate Course Rep","Architecture Year 1","School of Built Environment"],["Kevin Giurgi","Undergraduate Course Rep","Architecture Year 1","School of Built Environment"],["Viktoriia Chyp","Undergraduate Course Rep","Architecture Year 2","School of Built Environment"],["Aldea Bekteshi","Undergraduate Course Rep","Architecture Year 2","School of Built Environment"],["Sophie Ellis","Undergraduate Course Rep","Architecture Year 2","School of Built Environment"],["Bella Stott","Undergraduate Course Rep","Architecture Year 2","School of Built Environment"],["Warred Namer","Undergraduate Course Rep","Architecture Year 3","School of Built Environment"],["Darasimi Olasope","Undergraduate Course Rep","Architecture Year 3","School of Built Environment"],["Nouf Altheeb","Undergraduate Course Rep","BEng/MEng Architectural Engineering Year 1","School of Built Environment"],["Igor Ciboto","Undergraduate Course Rep","Chemistry Year 1","School of Chemistry, Food & Pharmacy"],["Shae Chinyemba","Undergraduate Course Rep","Chemistry Year 1","School of Chemistry, Food & Pharmacy"],["Ilmi Tabassum","Undergraduate Course Rep","Chemistry Year 2","School of Chemistry, Food & Pharmacy"],["Soonyun Yau","Undergraduate Course Rep","Chemistry Year 2","School of Chemistry, Food & Pharmacy"],["Alicya Conta","Undergraduate Course Rep","Chemistry with Foundation Year","School of Chemistry, Food & Pharmacy"],["Zanita Dixit","Undergraduate Course Rep","Chemistry (MChem - Part 4 only)","School of Chemistry, Food & Pharmacy"],["Michael Rastall-Marshall","Undergraduate Course Rep","Food Sciences Year 3/4","School of Chemistry, Food & Pharmacy"],["Zhiyi Wu","Undergraduate Course Rep","Food Science International Programme Year Two","School of Chemistry, Food & Pharmacy"],["Adela Hoxha","Undergraduate Course Rep","Food Technology and Bio-processing Year 1","School of Chemistry, Food & Pharmacy"],["Temi Oladeji","Undergraduate Course Rep","Nutrition Year 2","School of Chemistry, Food & Pharmacy"],["Max Renton","Undergraduate Course Rep","Food Science with Industrial Training Year 1","School of Chemistry, Food & Pharmacy"],["Sreya Srikanth","Undergraduate Course Rep","Food Science with Industrial Placement Year 2","School of Chemistry, Food & Pharmacy"],["Muhammad Sharaf","Undergraduate Course Rep","Food Science with Business Year 3/4","School of Chemistry, Food & Pharmacy"],["Antonia Anthony-Esiefiho","Undergraduate Course Rep","Pharmacology Year 1","School of Chemistry, Food & Pharmacy"],["Ester Emery Melnykova","Undergraduate Course Rep","Pharmacology Year 1","School of Chemistry, Food & Pharmacy"],["Nohn Romelle Sanoe","Undergraduate Course Rep","Pharmacology Year 1","School of Chemistry, Food & Pharmacy"],["Niall Chaudhary","Undergraduate Course Rep","Pharmacology Year 2","School of Chemistry, Food & Pharmacy"],["Sian Sumang","Undergraduate Course Rep","Pharmacology Year 2","School of Chemistry, Food & Pharmacy"],["Thiru Sivaganesh","Undergraduate Course Rep","MPAS Physicians Associate Year 2","School of Chemistry, Food & Pharmacy"],["Amna salam","Undergraduate Course Rep","MPAS Physicians Associate Year 2","School of Chemistry, Food & Pharmacy"],["Erica Nicklin","Undergraduate Course Rep","MPAS Physicians Associate Year 2","School of Chemistry, Food & Pharmacy"],["Christena Joseph","Undergraduate Course Rep","MPAS Physician Associate Year Three","School of Chemistry, Food & Pharmacy"],["Tyresa Pakeerathan","Undergraduate Course Rep","MPAS Physician Associate Year Three","School of Chemistry, Food & Pharmacy"],["Madiha Zafar","Undergraduate Course Rep","MPAS Physician Associate Year Four","School of Chemistry, Food & Pharmacy"],["Ryon Gower","Undergraduate Course Rep","MPAS Physician Associate Year Four","School of Chemistry, Food & Pharmacy"],["Hans Cornell","Undergraduate Course Rep","Pharmacy Year 1","School of Chemistry, Food & Pharmacy"],["Noor El-Ogbi","Undergraduate Course Rep","Pharmacy Year 1","School of Chemistry, Food & Pharmacy"],["Mardiyya Hussaini","Undergraduate Course Rep","Pharmacy Year 1","School of Chemistry, Food & Pharmacy"],["Christine Anil","Undergraduate Course Rep","Pharmacy Year 2","School of Chemistry, Food & Pharmacy"],["Amy Greenwood","Undergraduate Course Rep","Pharmacy Year 2","School of Chemistry, Food & Pharmacy"],["Eleanor Frances Cosier","Undergraduate Course Rep","Pharmacy Year 2","School of Chemistry, Food & Pharmacy"],["Hafsah Rashid","Undergraduate Course Rep","Pharmacy Year 3","School of Chemistry, Food & Pharmacy"],["Adam Sedjari","Undergraduate Course Rep","Pharmacy Year 3","School of Chemistry, Food & Pharmacy"],["Farideh Kheirati Saadi","Undergraduate Course Rep","Pharmacy Year 4","School of Chemistry, Food & Pharmacy"],["Natasha Kadri","Undergraduate Course Rep","Pharmacy Year 4","School of Chemistry, Food & Pharmacy"],["Numair Abbas","Undergraduate Course Rep","Pharmacy Year 4","School of Chemistry, Food & Pharmacy"],["Ethan Quarrell","Undergraduate Course Rep","Pharmacy Foundation","School of Chemistry, Food & Pharmacy"],["Menuha Ann Binu","Undergraduate Course Rep","Finance Year 1","Henley Business School & ICMA"],["Costa Nasser","Undergraduate Course Rep","Finance Year 1","Henley Business School & ICMA"],["Nathan Deo","Undergraduate Course Rep","Finance Year 2","Henley Business School & ICMA"],["Rafael Fox","Undergraduate Course Rep","Finance Year 2","Henley Business School & ICMA"],["Isabelle Fulford-Perez","Undergraduate Course Rep","Finance Year 3","Henley Business School & ICMA"],["Tamara Atavina","Undergraduate Course Rep","Finance Year 3","Henley Business School & ICMA"],["Keira Yeung","Undergraduate Course Rep","Business and Management Year 1","Henley Business School & ICMA"],["Emilio Moncada C.","Undergraduate Course Rep","Business and Management Year 1","Henley Business School & ICMA"],["Ishana Tibrewala","Undergraduate Course Rep","Business and Management Year 2","Henley Business School & ICMA"],["Henry Welch","Undergraduate Course Rep","Business and Management Year 2","Henley Business School & ICMA"],["Peter Jones","Undergraduate Course Rep","Business and Management Year 3","Henley Business School & ICMA"],["Noura Al-Qaissy","Undergraduate Course Rep","Business and Management Year 3","Henley Business School & ICMA"],["Ellis Price","Undergraduate Course Rep","Business and Management Foundation","Henley Business School & ICMA"],["Daniel Tapp","Undergraduate Course Rep","Accounting and Management Year 1","Henley Business School & ICMA"],["Aston Umpelby","Undergraduate Course Rep","Accounting and Management Year 3","Henley Business School & ICMA"],["Judith Yovan","Undergraduate Course Rep","Accounting and Finance Year 1","Henley Business School & ICMA"],["Joshua Chick","Undergraduate Course Rep","Accounting and Finance Year 2","Henley Business School & ICMA"],["Khalyla Thomas","Undergraduate Course Rep","Accounting and Business PWC Flying Start Year 1","Henley Business School & ICMA"],["Alec Boreham","Undergraduate Course Rep","Accounting and Business PWC Flying Start Year 2","Henley Business School & ICMA"],["Lee Hill","Undergraduate Course Rep","Accounting and Business PWC Flying Start Year 3","Henley Business School & ICMA"],["Faith Fogg","Undergraduate Course Rep","Accounting and Business PWC Flying Start Year 4","Henley Business School & ICMA"],["Charlie Moorhouse","Undergraduate Course Rep","Real Estate Foundation","Henley Business School & ICMA"],["Christina Ochom","Undergraduate Course Rep","Real Estate Year 1 (All Programmes)","Henley Business School & ICMA"],["Wonuola (Ola) Atekoja-Tijani","Undergraduate Course Rep","Real Estate Year 1 (All Programmes)","Henley Business School & ICMA"],["Karolina Jecna","Undergraduate Course Rep","Real Estate Year 1 (All Programmes)","Henley Business School & ICMA"],["Veronica Turco","Undergraduate Course Rep","Real Estate Year 2 (Inc. Real Estate, Real Estate Finance)","Henley Business School & ICMA"],["Mehmet Ozderici","Undergraduate Course Rep","Real Estate Year 2 (Inc. Real Estate, Real Estate Finance)","Henley Business School & ICMA"],["Viktor Tsvetkov","Undergraduate Course Rep","Real Estate Year 2 (Inc. Real Estate, Real Estate Finance)","Henley Business School & ICMA"],["Ollie Mackenzie","Undergraduate Course Rep","Real Estate Year 3","Henley Business School & ICMA"],["Schaun King","Undergraduate Course Rep","Real Estate Finance Year 3","Henley Business School & ICMA"],["Nicole Maumbe","Undergraduate Course Rep","Real Estate Development and Planning Year 3","Henley Business School & ICMA"],["Lily Antrim","Undergraduate Course Rep","Classics Year 1","School of Humanities"],["Jessica Kailey","Undergraduate Course Rep","Classics Year 2","School of Humanities"],["Rebekah Marsh","Undergraduate Course Rep","Classics Year 2","School of Humanities"],["Alexa Wolff","Undergraduate Course Rep","Classics Year 2","School of Humanities"],["Emily Jackson","Undergraduate Course Rep","Classics Year 2","School of Humanities"],["Braedon Fogarty","Undergraduate Course Rep","Classics Year 3","School of Humanities"],["Katy Scholey","Undergraduate Course Rep","Classics Year 3","School of Humanities"],["Hannah Armstrong","Undergraduate Course Rep","Classics Year 3","School of Humanities"],["Jim Dickinson","Undergraduate Course Rep","History Year 1","School of Humanities"],["Ana Karas","Undergraduate Course Rep","History Year 2","School of Humanities"],["Charlotte Broomfield","Undergraduate Course Rep","History Year 3","School of Humanities"],["Phoebe Ryan","Undergraduate Course Rep","Creative Writing Year 1","School of Humanities"],["Robyn Ryder","Undergraduate Course Rep","Creative Writing Year 2","School of Humanities"],["Ruby Bunting","Undergraduate Course Rep","English Literature Foundation","School of Humanities"],["Samantha Horsfield","Undergraduate Course Rep","English Literature Year 2","School of Humanities"],["Abbie Swales","Undergraduate Course Rep","English Literature Year 3","School of Humanities"],["Jane Vincent","Undergraduate Course Rep","English Literature Year 3","School of Humanities"],["Yamika Phiri","Undergraduate Course Rep","English Language (and Linguistics) Year 1","School of Humanities"],["Jess Furse","Undergraduate Course Rep","English Language (and Linguistics) Year 2","School of Humanities"],["Emily Wylie","Undergraduate Course Rep","English Language (and Linguistics) Year 3","School of Humanities"],["Alexandra Markuta","Undergraduate Course Rep","French Studies Year 1","School of Humanities"],["Evangeline Waltho","Undergraduate Course Rep","French Studies Year 2","School of Humanities"],["Gina Mesure","Undergraduate Course Rep","French Studies Year Abroad","School of Humanities"],["Imogen Pearce","Undergraduate Course Rep","French Studies Final Year","School of Humanities"],["Disha Battu","Undergraduate Course Rep","German Studies Year 1","School of Humanities"],["Millie Rogers","Undergraduate Course Rep","German Studies Year 2","School of Humanities"],["Gina Mesure","Undergraduate Course Rep","German Studies Year Abroad","School of Humanities"],["Emily Tasker","Undergraduate Course Rep","German Studies Final Year","School of Humanities"],["Toby Klein","Undergraduate Course Rep","Italian Studies Year 1","School of Humanities"],["Yvette Penney","Undergraduate Course Rep","Italian Studies Year 2","School of Humanities"],["Orla Campion","Undergraduate Course Rep","Italian Studies Year Abroad","School of Humanities"],["Nate Jones","Undergraduate Course Rep","Italian Studies Final Year","School of Humanities"],["Phoebe Prior-Sales","Undergraduate Course Rep","Spanish Studies Year 1","School of Humanities"],["Emily Wilton","Undergraduate Course Rep","Spanish Studies Year 2","School of Humanities"],["Kitty Humphreys","Undergraduate Course Rep","Spanish Studies Year Abroad","School of Humanities"],["Georgia Buck","Undergraduate Course Rep","Spanish Studies Final Year","School of Humanities"],["Isabella Harrington","Undergraduate Course Rep","Three Year BA Modern Languages Degree Course Final Year","School of Humanities"],["Imran Sheikh","Undergraduate Course Rep","Primary Education with Art Year 2","Institute of Education"],["Isabella Whatley","Undergraduate Course Rep","Primary Education with English Year 1","Institute of Education"],["Lottie Parker","Undergraduate Course Rep","Primary Education with English Year 2","Institute of Education"],["Jaya Malhi","Undergraduate Course Rep","Primary Education with English Year 3","Institute of Education"],["Pritika Rane","Undergraduate Course Rep","Primary Education with Mathematics Year 2","Institute of Education"],["Madeline Haunch","Undergraduate Course Rep","Primary Education with Mathematics Year 3","Institute of Education"],["Amy Webster","Undergraduate Course Rep","Primary Education with Music Year 1","Institute of Education"],["Danielle Rosario","Undergraduate Course Rep","Primary Education with Music Year 2","Institute of Education"],["Franky Tyler","Undergraduate Course Rep","Primary Education with Music Year 2","Institute of Education"],["Anna Carvill","Undergraduate Course Rep","Primary Education General Year 1","Institute of Education"],["Fatima Mujahid","Undergraduate Course Rep","Primary Education General Year 2","Institute of Education"],["Jasmine Higgs","Undergraduate Course Rep","Primary Education General Year 3","Institute of Education"],["Shya Knight","Undergraduate Course Rep","Children’s Development and Learning","Institute of Education"],["Emily Embery","Undergraduate Course Rep","Children’s Development and Learning","Institute of Education"],["Amber Jefferson","Undergraduate Course Rep","FD Children's Development and Learning BCA Year 2","Institute of Education"],["Maddie Martell","Undergraduate Course Rep","BA Education Studies Year 1","Institute of Education"],["YiJing Du (Lucy)","Undergraduate Course Rep","BA Education Studies Year 2","Institute of Education"],["Malaika Rizwan","Undergraduate Course Rep","BA Education Studies Year 2","Institute of Education"],["Billy Vernon-Green","Undergraduate Course Rep","BA Education Studies Mature Rep","Institute of Education"],["Jiawen Yuan","Undergraduate Course Rep","BA Education Studies International Rep","Institute of Education"],["Hayley Harris","Undergraduate Course Rep","Law Year 1","School of Law"],["Aaron Owoo","Undergraduate Course Rep","Law Year 1","School of Law"],["Tamilore Ogunbajo","Undergraduate Course Rep","Law Year 1","School of Law"],["Halima Mohammed","Undergraduate Course Rep","Law Year 2","School of Law"],["Albert Burdett","Undergraduate Course Rep","Law Year 2","School of Law"],["Lauren Whitley","Undergraduate Course Rep","Law Year 3","School of Law"],["Ali Sherif","Undergraduate Course Rep","Law Year 3","School of Law"],["Anu Agboola","Undergraduate Course Rep","Law Foundation","School of Law"],["Bayley Jenkins","Undergraduate Course Rep","Criminology Year 2","School of Law"],["Paige Wallen","Undergraduate Course Rep","Criminology Year 3","School of Law"],["Tamilore Ogunbajo","Undergraduate Course Rep","D&I Rep","School of Law"],["Zahraa Al-Jameel","Undergraduate Course Rep","Disability Rep","School of Law"],["Jodie Juliusdottir","Undergraduate Course Rep","Mathematics (single and joint honours) Year 1","School of Mathematical, Physical & Computational Sciences"],["Chibueze Nwagwu","Undergraduate Course Rep","Mathematics (single and joint honours) Year 1","School of Mathematical, Physical & Computational Sciences"],["Sanjar Junussov","Undergraduate Course Rep","Mathematics (single and joint honours) Year 2","School of Mathematical, Physical & Computational Sciences"],["Amy Macdonald","Undergraduate Course Rep","Mathematics (single and joint honours) Year 2","School of Mathematical, Physical & Computational Sciences"],["Yarik Prylepa","Undergraduate Course Rep","Mathematics (single and joint honours) Year 2","School of Mathematical, Physical & Computational Sciences"],["Howard Tam","Undergraduate Course Rep","Mathematics Mmath/ Maths and Met MMath Year 4","School of Mathematical, Physical & Computational Sciences"],["Zixi Chen","Undergraduate Course Rep","Maths NUIST","School of Mathematical, Physical & Computational Sciences"],["Nana Amoabeng","Undergraduate Course Rep","Computer Science Year 1","School of Mathematical, Physical & Computational Sciences"],["Bailey Ward","Undergraduate Course Rep","Computer Science Year 1","School of Mathematical, Physical & Computational Sciences"],["Harry Ellis","Undergraduate Course Rep","Computer Science Year 1","School of Mathematical, Physical & Computational Sciences"],["Max Marino","Undergraduate Course Rep","Computer Science Year 2","School of Mathematical, Physical & Computational Sciences"],["Alexander Phillips","Undergraduate Course Rep","Computer Science Year 2","School of Mathematical, Physical & Computational Sciences"],["Ahmed Khan","Undergraduate Course Rep","Computer Science Year 2","School of Mathematical, Physical & Computational Sciences"],["Grace Kosoko","Undergraduate Course Rep","Computer Science Year 3","School of Mathematical, Physical & Computational Sciences"],["Pippa Gale","Undergraduate Course Rep","Computer Science Year 4","School of Mathematical, Physical & Computational Sciences"],["Roberto Hinton Cotarelo","Undergraduate Course Rep","MMet Meteorology and Climate with Year in Oklahoma Year 1","School of Mathematical, Physical & Computational Sciences"],["Richard McGuffie","Undergraduate Course Rep","BSc Meteorology and Climate Year 2","School of Mathematical, Physical & Computational Sciences"],["Szymon Patryk Blasiak","Undergraduate Course Rep","Philosophy Year 1","School of Philosophy, Politics & Economics"],["Aaron Richards","Undergraduate Course Rep","Philosophy Year 1","School of Philosophy, Politics & Economics"],["Isabel Eaves","Undergraduate Course Rep","Philosophy Year 2","School of Philosophy, Politics & Economics"],["Bethan Owen","Undergraduate Course Rep","Philosophy Year 3","School of Philosophy, Politics & Economics"],["Darsh Shah","Undergraduate Course Rep","Economics Year 1","School of Philosophy, Politics & Economics"],["Tobias Reed","Undergraduate Course Rep","Economics Year 1","School of Philosophy, Politics & Economics"],["Ollie Thomas","Undergraduate Course Rep","Economics Year 1","School of Philosophy, Politics & Economics"],["Malak Alshalaa","Undergraduate Course Rep","Economics Year 1","School of Philosophy, Politics & Economics"],["Nishat Rodoshi","Undergraduate Course Rep","Economics Year 2","School of Philosophy, Politics & Economics"],["Ashni Jani","Undergraduate Course Rep","Economics Year 2","School of Philosophy, Politics & Economics"],["Maria Luiza Guimaraes E Silva","Undergraduate Course Rep","Economics Year 2","School of Philosophy, Politics & Economics"],["Pezo Chisala","Undergraduate Course Rep","Economics Year 3","School of Philosophy, Politics & Economics"],["Raihan Ahmed","Undergraduate Course Rep","Politics Year 1","School of Philosophy, Politics & Economics"],["Alexia Dinu","Undergraduate Course Rep","Politics Year 1","School of Philosophy, Politics & Economics"],["Django Perks","Undergraduate Course Rep","Politics Year 1","School of Philosophy, Politics & Economics"],["Chloe Mupata","Undergraduate Course Rep","Politics Year 2","School of Philosophy, Politics & Economics"],["Serena Rodgers","Undergraduate Course Rep","Politics Year 2","School of Philosophy, Politics & Economics"],["Deniz Eraslan","Undergraduate Course Rep","Politics Year 2","School of Philosophy, Politics & Economics"],["George Slater","Undergraduate Course Rep","Politics Year 3","School of Philosophy, Politics & Economics"],["Ella Mulholland","Undergraduate Course Rep","Politics Year 3","School of Philosophy, Politics & Economics"],["Emma Tamina","Undergraduate Course Rep","Sociology Year 1","School of Philosophy, Politics & Economics"],["Joanne Albayati","Undergraduate Course Rep","Sociology Year 1","School of Philosophy, Politics & Economics"],["Amani Muzammil","Undergraduate Course Rep","Sociology and Criminology Year 1","School of Philosophy, Politics & Economics"],["Evie Bibby","Undergraduate Course Rep","Sociology and Criminology Year 1","School of Philosophy, Politics & Economics"],["Chloe Bennett","Undergraduate Course Rep","Speech and Language Therapy Year 1","School of Psychology & Clinical Language Sciences"],["Kate Smallbone","Undergraduate Course Rep","Speech and Language Therapy Year 1","School of Psychology & Clinical Language Sciences"],["Chloe Batsford","Undergraduate Course Rep","Speech and Language Therapy Year 2","School of Psychology & Clinical Language Sciences"],["Ellie Ashby","Undergraduate Course Rep","Speech and Language Therapy Year 3","School of Psychology & Clinical Language Sciences"],["Kitty M Speed","Undergraduate Course Rep","Speech and Language Therapy Year 4","School of Psychology & Clinical Language Sciences"],["Jaya Patel","Undergraduate Course Rep","Msci Applied Psychology (Clinical) Year 1","School of Psychology & Clinical Language Sciences"],["Julian Dare","Undergraduate Course Rep","Psychology and Language Sciences Year 1","School of Psychology & Clinical Language Sciences"],["Blessing Oduah","Undergraduate Course Rep","Psychology Foundation","School of Psychology & Clinical Language Sciences"],["Kaz Robinson","Undergraduate Course Rep","Psychology Year 1","School of Psychology & Clinical Language Sciences"],["Nishara Nihas","Undergraduate Course Rep","Psychology Year 1","School of Psychology & Clinical Language Sciences"],["Josh Kesner","Undergraduate Course Rep","Psychology Year 1","School of Psychology & Clinical Language Sciences"],["Jasmine Wu","Undergraduate Course Rep","Psychology Year 2","School of Psychology & Clinical Language Sciences"],["Keira Smith","Undergraduate Course Rep","Psychology Year 3","School of Psychology & Clinical Language Sciences"],["Victoria Kondratiuk","Undergraduate Course Rep","Psychology with Neuroscience Year 1","School of Psychology & Clinical Language Sciences"],["Amber O'Byrne","Undergraduate Course Rep","Psychology with Neuroscience Year 2","School of Psychology & Clinical Language Sciences"],["Muskaan Ghosh","Undergraduate Course Rep","Psychology with Professional Placement Year 1","School of Psychology & Clinical Language Sciences"],["Laycee Stephens","Undergraduate Course Rep","Psychology with Professional Placement Year 4","School of Psychology & Clinical Language Sciences"],["Holly Robinson","Undergraduate Course Rep","Psychology and Philosophy Year 2","School of Psychology & Clinical Language Sciences"],["Ruan Lisboa De Souza Lisboa","Undergraduate Course Rep","International Foundation Program (IFP)","International Foundation Program (IFP)"],["Sarah Djebbari","Undergraduate Course Rep","International Foundation Program (IFP)","International Foundation Program (IFP)"],["Mohammed S H f Almutairi","Undergraduate Course Rep","International Foundation Program (IFP)","International Foundation Program (IFP)"],["Maram Aimen Ahmed sultan Al Hosni","Undergraduate Course Rep","International Foundation Program (IFP)","International Foundation Program (IFP)"],["Abdulrahman Y Y kh Alrabee","Undergraduate Course Rep","International Foundation Program (IFP)","International Foundation Program (IFP)"],["Malaika Rizwan","Languages for All Module Rep","Arabic","Languages for All Module Rep"],["Samanth Gunes","Languages for All Module Rep","Arabic","Languages for All Module Rep"],["Iman Mahmalat","Languages for All Module Rep","Arabic","Languages for All Module Rep"],["Jess Matthews","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Katherine Maduagwu","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Libby Bartlett Gutteridge","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Poppy Leach Evans","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Fran Pires","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Scarlett Billson","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Lu Arthur","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Freya Hitchon-Stevens","Languages for All Module Rep","BSL","Languages for All Module Rep"],["Isebella Hancock","Languages for All Module Rep","Chinese","Languages for All Module Rep"],["Ryan Chapman","Languages for All Module Rep","Chinese","Languages for All Module Rep"],["Helima Mohammed","Languages for All Module Rep","Chinese","Languages for All Module Rep"],["Kang Su","Languages for All Module Rep","Chinese","Languages for All Module Rep"],["Morgan Gill","Languages for All Module Rep","French","Languages for All Module Rep"],["Brenda Avalos","Languages for All Module Rep","French","Languages for All Module Rep"],["Maryam Singhateh","Languages for All Module Rep","French","Languages for All Module Rep"],["Kieran Ayre","Languages for All Module Rep","French","Languages for All Module Rep"],["Pedro Arsenio","Languages for All Module Rep","French","Languages for All Module Rep"],["George Slater","Languages for All Module Rep","German","Languages for All Module Rep"],["Mark Ndoja","Languages for All Module Rep","German","Languages for All Module Rep"],["Tanja (Tetiana) Busniak","Languages for All Module Rep","German","Languages for All Module Rep"],["Imogen Gilbert","Languages for All Module Rep","German","Languages for All Module Rep"],["Alana Reed","Languages for All Module Rep","Italian","Languages for All Module Rep"],["Jenifer Alvarez","Languages for All Module Rep","Italian","Languages for All Module Rep"],["Clara-Rose Janman","Languages for All Module Rep","Japanese","Languages for All Module Rep"],["Ali Jaffer","Languages for All Module Rep","Japanese","Languages for All Module Rep"],["Mimi Ekpene","Languages for All Module Rep","Japanese","Languages for All Module Rep"],["Sam Wilkins","Languages for All Module Rep","Japanese","Languages for All Module Rep"],["Samuel Millwood","Languages for All Module Rep","Japanese","Languages for All Module Rep"],["Courtney Chap","Languages for All Module Rep","Modern Greek","Languages for All Module Rep"],["Despina Gonatas","Languages for All Module Rep","Modern Greek","Languages for All Module Rep"],["Alison Ellis","Languages for All Module Rep","Modern Greek","Languages for All Module Rep"],["Sara Nazzani","Languages for All Module Rep","Spanish","Languages for All Module Rep"],["Tom Frostick","Languages for All Module Rep","Spanish","Languages for All Module Rep"],["Poppy Ball","Languages for All Module Rep","Spanish","Languages for All Module Rep"],["Andreu Palet","Languages for All Module Rep","Spanish","Languages for All Module Rep"],["Anastasiia Velychko","Languages for All Module Rep","Spanish","Languages for All Module Rep"],["Iris Wong","Languages for All Module Rep","Russian","Languages for All Module Rep"],["Kara Jacobs","Languages for All Module Rep","Russian","Languages for All Module Rep"],["Ethan Tomkins","Languages for All Module Rep","Russian","Languages for All Module Rep"],["Marc Schmidt","Languages for All Module Rep","Russian","Languages for All Module Rep"],["Alexandra Markuta","Languages for All Module Rep","Russian","Languages for All Module Rep"],["Muhammad Hasnain Raza","Postgraduate Course Rep","MSc Agriculture and Development","School of Agriculture, Policy & Development"],["Chidinma Mary Ezeh","Postgraduate Course Rep","MSc Applied International Development","School of Agriculture, Policy & Development"],["Sharon Oluwadamilola Abiodun","Postgraduate Course Rep","MSc Communication for Development","School of Agriculture, Policy & Development"],["Ishita Bagui","Postgraduate Course Rep","MSc by Research Agriculture, Ecology and Environment","School of Agriculture, Policy & Development"],["Michael Carr","Postgraduate Course Rep","(MA) Archaeology","School of Archaeology, Geography & Environmental Science"],["Kevin Gannaway","Postgraduate Course Rep","(MSc) Environmental Management","School of Archaeology, Geography & Environmental Science"],["Sakshi Joshi","Postgraduate Course Rep","Communication Design Rep","School of Art & Communication Design"],["Caitlin Croft","Postgraduate Course Rep","MFA Rep","School of Art & Communication Design"],["Ghalia Alzein","Postgraduate Course Rep","MA Film and Creative Enterprise","School of Art & Communication Design"],["Sebastian Chango","Postgraduate Course Rep","(MSc) Biotechnology","School of Biological Sciences"],["Will Hooper","Postgraduate Course Rep","(MArch) Master of Architecture Year 1","School of Built Environment"],["Eesha Fatima","Postgraduate Course Rep","(MArch) Master of Architecture Year 2","School of Built Environment"],["Alex Ching","Postgraduate Course Rep","(MArch) Master of Architecture Year 2","School of Built Environment"],["Chandramouli Ragavan","Postgraduate Course Rep","(MSc) Construction Management","School of Built Environment"],["Kelly Yu","Postgraduate Course Rep","(MSc) Construction Cost Management","School of Built Environment"],["Reece Barua","Postgraduate Course Rep","(MSc) Project Management","School of Built Environment"],["Reuben Mutua Nzioka","Postgraduate Course Rep","(MSc) Renewable Energy: Technology and Sustainability","School of Built Environment"],["Dana Alhouranieh","Postgraduate Course Rep","(MSc) Design & Management of Sustainable Built Environments","School of Built Environment"],["Hithashri Santosh","Postgraduate Course Rep","(MSc) Food Science","School of Chemistry, Food & Pharmacy"],["Ayush Mathew","Postgraduate Course Rep","(MSc) Food Technology - Quality Assurance","School of Chemistry, Food & Pharmacy"],["Raed Al Sharabati","Postgraduate Course Rep","(MSc) Food Technology - Quality Assurance","School of Chemistry, Food & Pharmacy"],["Angela Pun","Postgraduate Course Rep","(MSc) Dietetic","School of Chemistry, Food & Pharmacy"],["Ayo Adenaike","Postgraduate Course Rep","Physicians Associate Year 1","School of Chemistry, Food & Pharmacy"],["Zoha Qureshi","Postgraduate Course Rep","Physicians Associate Year 1","School of Chemistry, Food & Pharmacy"],["Arkash Elangovan","Postgraduate Course Rep","Physicians Associate Year 2","School of Chemistry, Food & Pharmacy"],["Anaxia Uthayakumar","Postgraduate Course Rep","Physicians Associate Year 2","School of Chemistry, Food & Pharmacy"],["Ted Crosbie","Postgraduate Course Rep","Advanced Clinical Practice","School of Chemistry, Food & Pharmacy"],["Paul Summerfield","Postgraduate Course Rep","Advancing Healthcare Practice","School of Chemistry, Food & Pharmacy"],["Mineli Amanya Gamage Karunarathna","Postgraduate Course Rep","(MSc) Accounting, Financial Management & Digital Business","Henley Business School & ICMA"],["James Boxer","Postgraduate Course Rep","(MSc) Behavioural Finance","Henley Business School & ICMA"],["Onyinyechukwu Douglas","Postgraduate Course Rep","(MSc) Climate Change, Sustainable Business and Green Finance","Henley Business School & ICMA"],["Ebado Alsomali","Postgraduate Course Rep","(MSc) Corporate Finance","Henley Business School & ICMA"],["Xize Li","Postgraduate Course Rep","(MSc) Digital Innovation (full-time)","Henley Business School & ICMA"],["Lee Pei-Jung","Postgraduate Course Rep","(MSc) Digital Business and Data Analytics (full-time)","Henley Business School & ICMA"],["Adithya Gogul","Postgraduate Course Rep","(MSc) Entrepreneurship and Innovation","Henley Business School & ICMA"],["Raphael Rondelot","Postgraduate Course Rep","(MSc) Finance and Financial Technology","Henley Business School & ICMA"],["Kim Melendez","Postgraduate Course Rep","(MSc) Financial Risk Management","Henley Business School & ICMA"],["Karthik Handiganala Nagaraj","Postgraduate Course Rep","(MSc) International Accounting and Finance","Henley Business School & ICMA"],["Harsh Thingore","Postgraduate Course Rep","(MSc) International Business","Henley Business School & ICMA"],["Oyindamola Albert","Postgraduate Course Rep","(MSc) International Business and Digital Transformation (UoR-MIP partnership)","Henley Business School & ICMA"],["Godfrey Dekera","Postgraduate Course Rep","(MSc) Applied Artificial Intelligence for Business","Henley Business School & ICMA"],["Jayden Scarpa","Postgraduate Course Rep","(MSc) Applied Artificial Intelligence for Business","Henley Business School & ICMA"],["Prathamesh Gothankar","Postgraduate Course Rep","(MSc) Finance","Henley Business School & ICMA"],["Nedal Khaled Moh'd Owaidat","Postgraduate Course Rep","(MSc) Investment Management","Henley Business School & ICMA"],["Avantika Singh","Postgraduate Course Rep","(MSc) Management","Henley Business School & ICMA"],["Maab Al Bulushi","Postgraduate Course Rep","(MSc) Management","Henley Business School & ICMA"],["Shidokht Ebrahimi","Postgraduate Course Rep","(MSc) Marketing (International)","Henley Business School & ICMA"],["Isabel Wessendorp","Postgraduate Course Rep","(MSc) Marketing (Sustainability)","Henley Business School & ICMA"],["Courtney Murch","Postgraduate Course Rep","History","School of Humanities"],["Ana Gale","Postgraduate Course Rep","English Literature","School of Humanities"],["Wesam Alshehri","Postgraduate Course Rep","MA Applied Linguistics","School of Humanities"],["Wesam Alshehri","Postgraduate Course Rep","MA TESOL","School of Humanities"],["Natasha Makins","Postgraduate Course Rep","Secondary ITT Art and Design & Technology","Institute of Education"],["Thomas Read","Postgraduate Course Rep","Secondary ITT English","Institute of Education"],["Becca Kadwell","Postgraduate Course Rep","Secondary ITT Geography","Institute of Education"],["Richard Baden","Postgraduate Course Rep","Secondary ITT History","Institute of Education"],["David Russell","Postgraduate Course Rep","Secondary ITT Modern Foreign Languages","Institute of Education"],["Beau Burton","Postgraduate Course Rep","Secondary ITT PE","Institute of Education"],["Ben Preece","Postgraduate Course Rep","Secondary ITT Science","Institute of Education"],["Isbe Maqsud","Postgraduate Course Rep","PGCE Primary General","Institute of Education"],["Sam Bradford","Postgraduate Course Rep","PGCE Primary General","Institute of Education"],["Diana Brooks","Postgraduate Course Rep","PGCE Primary General","Institute of Education"],["George Wright","Postgraduate Course Rep","PGCE Primary General","Institute of Education"],["Judith Egbonyi","Postgraduate Course Rep","PGCE Early Years Practice","Institute of Education"],["Abbie Schultz","Postgraduate Course Rep","PGCE Early Years Practice","Institute of Education"],["Suniti Sharma","Postgraduate Course Rep","PGCE Primary with Early Years (3-7)","Institute of Education"],["Bhobina Pun","Postgraduate Course Rep","PGCE Primary with SEN","Institute of Education"],["Jordan Dublin","Postgraduate Course Rep","PGCE Primary with SEN","Institute of Education"],["Moss Corkhill","Postgraduate Course Rep","PGCE Primary with SEN","Institute of Education"],["Ashleigh Weldon","Postgraduate Course Rep","PGCE Primary with SEN","Institute of Education"],["Keira Herrington","Postgraduate Course Rep","PGCE Primary with SEN","Institute of Education"],["Aijie Yan","Postgraduate Course Rep","MA Education (FT)","Institute of Education"],["Katherine Park-Bernard","Postgraduate Course Rep","MA Education (PT)","Institute of Education"],["Elizabeth Holder","Postgraduate Course Rep","MA Education (PT)","Institute of Education"],["Aarya Satheesan","Postgraduate Course Rep","Commercial Law PGT","School of Law"],["Charlotte Smith","Postgraduate Course Rep","Global and International Law PGT","School of Law"],["Andrew Kenny","Postgraduate Course Rep","(MSc) Applied Meteorology and Climate","School of Mathematical, Physical & Computational Sciences"],["Jatin","Postgraduate Course Rep","(MSc) Applied Economics","School of Politics, Philosophy & Economics"],["Jack Simpson","Postgraduate Course Rep","(Mres) Politics and International Relations","School of Politics, Philosophy & Economics"],["Kinga Kacprzak","Postgraduate Course Rep","(MSc) Speech and Language Therapy Year 1","School of Psychology & Clinical Language Sciences"],["Ellen Dart","Postgraduate Course Rep","(MSc) Speech and Language Therapy Year 2","School of Psychology & Clinical Language Sciences"],["Jenna Haddad","Postgraduate Course Rep","(MSc) Speech and Language Therapy Year 2","School of Psychology & Clinical Language Sciences"],["Claudia Gilling","Postgraduate Course Rep","(MSc) Psychology Conversion","School of Psychology & Clinical Language Sciences"],["Hasan Ansari","Postgraduate Course Rep","(MSc) Theory and Practice in Clinical Psychology (with Clinical Placement)","School of Psychology & Clinical Language Sciences"],["Muhammad Hasnain Raza","Postgraduate Senior Rep","School of Agriculture, Policy & Development","School of Agriculture, Policy & Development"],["Oyepariola Inioluwa","Postgraduate Senior Rep","School of Chemistry, Food & Pharmacy","School of Chemistry, Food & Pharmacy"],["Vikramkumar (Vikram) Parihar","Postgraduate Senior Rep","Henley Business School & ICMA","Henley Business School & ICMA"],["Karthik Handiganala Nagaraj","Postgraduate Senior Rep","Henley Business School & ICMA","Henley Business School & ICMA"],["Zhen Zhen","Postgraduate Senior Rep","Henley Business School & ICMA","Henley Business School & ICMA"],["Katie Eglington","Postgraduate Senior Rep","Institute of Education","Institute of Education"],["Jatin","Postgraduate Senior Rep","School of Politics, Philosophy & Economics","School of Politics, Philosophy & Economics"],["Jessica Lily Harvey","Postgraduate Senior Rep","School of Psychology & Clinical Language Sciences","School of Psychology & Clinical Language Sciences"],["Gracie McIntosh","Undergraduate Senior Rep","School of Biological Sciences","School of Biological Sciences"],["Adriarna Clarke","Undergraduate Senior Rep","School of Humanities","School of Humanities"],["Charlotte Broomfield","Undergraduate Senior Rep","School of Humanities","School of Humanities"],["Jemima-Helen Tshondo","Undergraduate Senior Rep","School of Law","School of Law"],["Siham Ali","Undergraduate Senior Rep","School of Law","School of Law"],["Nishat Rodoshi","Undergraduate Senior Rep","School of Politics, Philosophy & Economics","School of Politics, Philosophy & Economics"],["Harry Iontton","Undergraduate Senior Rep","Agriculture, Policy & Development","Agriculture, Policy & Development"],["Megan Knapp","Undergraduate Senior Rep","Agriculture, Policy & Development","Agriculture, Policy & Development"],["Ethan Leader","Undergraduate Senior Rep","Archaeology, Geography & Environmental Science","Archaeology, Geography & Environmental Science"],["Eleanor Rawlings","Undergraduate Senior Rep","Archaeology, Geography & Environmental Science","Archaeology, Geography & Environmental Science"],["Amalia Hatiris","Undergraduate Senior Rep","Biological Sciences","Biological Sciences"],["Sulaiman Rasheed","Undergraduate Senior Rep","Built Environment","Built Environment"],["Ahmed Gilani","Undergraduate Senior Rep","Built Environment","Built Environment"],["Kyra Hartono","Undergraduate Senior Rep","Chemistry, Food & Pharmacy","Chemistry, Food & Pharmacy"],["Lucia Warner","Undergraduate Senior Rep","Chemistry, Food & Pharmacy","Chemistry, Food & Pharmacy"],["Joseph Diver","Undergraduate Senior Rep","Henley Business School","Henley Business School"],["Cherry Lai","Undergraduate Senior Rep","Henley Business School","Henley Business School"],["Venus Chu","Undergraduate Senior Rep","Henley Business School","Henley Business School"],["Sambhavi Sai Deepika Sivanand","Undergraduate Senior Rep","Henley Business School","Henley Business School"],["Oceiah Annesley","Undergraduate Senior Rep","Humanities","Humanities"],["Isabella Caitlin Harrington","Undergraduate Senior Rep","Humanities","Humanities"],["Katie-Jane Sollars","Undergraduate Senior Rep","Institute of Education","Institute of Education"],["Abigail Karkoska","Undergraduate Senior Rep","Mathematical, Physical & Computational Sciences","Mathematical, Physical & Computational Sciences"],["Tamir Sharif","Undergraduate Senior Rep","Mathematical, Physical & Computational Sciences","Mathematical, Physical & Computational Sciences"],["Adam Musa","Undergraduate Senior Rep","Politics, Economics & International Relations","Politics, Economics & International Relations"],["Efemena Oyibo","Undergraduate Senior Rep","Psychology & Clinical Language Sciences","Psychology & Clinical Language Sciences"],["Emily Elizabeth Nunns","Undergraduate Senior Rep","Psychology & Clinical Language Sciences","Psychology & Clinical Language Sciences"],["Devina Jnagal","Undergraduate Senior Rep","Psychology & Clinical Language Sciences","Psychology & Clinical Language Sciences"]];
+  const input = root.querySelector(".rep-finder__input");
+  const clearButton = root.querySelector(".rep-finder__clear");
+  const results = root.querySelector(".rep-finder__results");
+  const status = root.querySelector(".rep-finder__status");
+  const empty = root.querySelector(".rep-finder__empty");
+
+  const MAX_RESULTS = 20;
+
+  const normalise = value =>
+    value
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, " ")
+      .trim();
+
+  const searchableReps = reps.map(rep => ({
+    data: rep,
+    search: normalise(rep.join(" "))
+  }));
+
+  function createResult(rep) {
+    const [name, position, course, school] = rep;
+
+    const item = document.createElement("li");
+    item.className = "rep-finder__result";
+
+    const nameBlock = document.createElement("div");
+    nameBlock.className = "rep-finder__name";
+
+    const nameText = document.createElement("strong");
+    nameText.textContent = name;
+
+    const roleText = document.createElement("span");
+    roleText.textContent = position;
+
+    nameBlock.append(nameText, roleText);
+
+    const detailBlock = document.createElement("div");
+    detailBlock.className = "rep-finder__details";
+
+    const courseText = document.createElement("p");
+    courseText.textContent = course;
+
+    const schoolText = document.createElement("small");
+    schoolText.textContent = school;
+
+    detailBlock.append(courseText, schoolText);
+    item.append(nameBlock, detailBlock);
+
+    return item;
+  }
+
+  function render() {
+    const query = normalise(input.value);
+    const tokens = query.split(" ").filter(Boolean);
+
+    results.replaceChildren();
+    results.classList.remove("is-visible");
+    empty.hidden = true;
+    clearButton.classList.toggle("is-visible", input.value.length > 0);
+
+    if (query.length < 2) {
+      status.textContent = input.value
+        ? "Type at least two characters to search."
+        : "Start typing to find your rep.";
+      return;
+    }
+
+    const matches = searchableReps.filter(rep =>
+      tokens.every(token => rep.search.includes(token))
+    );
+
+    if (!matches.length) {
+      status.textContent = "No representatives found.";
+      empty.hidden = false;
+      return;
+    }
+
+    const visibleMatches = matches.slice(0, MAX_RESULTS);
+    const fragment = document.createDocumentFragment();
+
+    visibleMatches.forEach(rep => {
+      fragment.appendChild(createResult(rep.data));
+    });
+
+    results.appendChild(fragment);
+    results.classList.add("is-visible");
+
+    status.textContent =
+      matches.length > MAX_RESULTS
+        ? `Showing the first ${MAX_RESULTS} of ${matches.length} matching representatives. Add more detail to narrow your search.`
+        : `${matches.length} ${matches.length === 1 ? "representative" : "representatives"} found.`;
+  }
+
+  input.addEventListener("input", render);
+
+  clearButton.addEventListener("click", () => {
+    input.value = "";
+    render();
+    input.focus();
+  });
+})();
+</script>
