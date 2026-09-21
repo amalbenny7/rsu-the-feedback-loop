@@ -1,0 +1,1201 @@
+{embed="global/.header"}
+<style>
+#global-calendar {
+  border-radius: 1rem;
+  max-width: max-content;
+  height: max-content;
+  animation: fadeIn 1s ease-out;
+  padding: 5px;
+  border: .2em solid var(--sea-blue);
+}
+.calendar-weekday {
+  background-color: var(--deep-blue) !important;
+    color: var(--cerise) !important;
+}
+.padding-day {
+    background-color: var(--deep-blue) !important;
+}
+.calendar-day {
+    background-color: rgba(230, 230, 230, 0.1) !important;
+    color: var(--white) !important;
+    border-radius: 0.5em;
+}
+.dropdown-item:hover {
+    background-color: var(--light-grey);
+}
+.dropdown-item:active {
+    background-color: var(--afterglow);
+    color: var(--deep-blue);
+}
+.cal-btn {
+  color: var(--afterglow);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5em;
+  border-radius: 50%;
+  transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Hover effect for the button */
+.cal-btn:hover {
+  color: var(--cerise);
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.15);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  animation: fadeIn 0.3s ease-out;
+}
+.cal-month {
+  color: var(--sea-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Changa One', Calibri;
+  border-radius: 25px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+    transition: color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+.cal-month:hover {
+  color: var(--afterglow);
+  background-color:     rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 25px;
+    animation: fadeIn 0.3s ease-out;
+}
+.cal-header {
+  background: var(--deep-blue);
+	border-radius: 0.6em 0.6em 0 0;
+  padding: 1em;
+}
+#calendar {
+  max-width: max-content;
+  gap: 0.5em;
+  background: var(--deep-blue);
+  border-radius: 0 0 0.6em 0.6em;
+}
+#calendarBody {
+    width: calc(6 * 4em);
+    border-collapse: collapse;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    will-change: transform, opacity, height;
+    transform-origin: center top;
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+#calendarBody.transitioning {
+    opacity: 0;
+    transform: translateY(30px) scale(0.98);
+    transition: 
+        opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 20em;
+    pointer-events: none; /* Prevents interaction during animation */
+}
+@keyframes calendarEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+#calendarBody:not(.transitioning) {
+    animation: calendarEntrance 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+#calendar th,
+#calendar td {
+  width: 3em;
+  height: 3em;
+  padding: 0.2em;
+  margin: .1em;
+  border: 0;
+  gap: .2em;
+  float: inline-start;
+  background-color: none;
+}
+.padding-day:hover {
+  background: none !important;
+  cursor: pointer;
+}
+#calendar .selected {
+    background-color: var(--cerise) !important;
+    border: .2em solid var(--sea-blue);
+}
+#calendar .today {
+    background-color: var(--sea-blue) !important;
+}
+.calendar-day {
+    border-radius: 8px;
+    padding: 4px;
+    padding: .1em;
+    height: .5em;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.calendar-day:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+table .calendar-day,
+#calendar .calendar-day {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.event-dot {
+  height: .4em;
+  width: .4em;
+  background-color: var(--afterglow);
+  border-radius: 40%;
+  bottom: .5em;
+  transform: translateX(-50%);
+  opacity: 50%;
+  position: absolute;
+  animation: dotPulse 1s ease-out infinite; /* Pulsing effect for event dots */
+}
+.calendar-day .event-dot:nth-child(1) {
+  left: calc(50% - 15px);
+}
+.calendar-day .event-dot:nth-child(2) {
+  left: calc(50%);
+}
+.calendar-day .event-dot:nth-child(3) {
+  left: calc(50% + 15px);
+}
+/* Keyframe animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes dotPulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  #calendar {
+    gap: 0.2em; /* Tighter layout on smaller devices */
+  }
+#calendar th,
+  #calendar td {
+    font-size: 0.9em; /* Adjust font size for readability */
+  }
+}
+@media (max-width: 480px) {
+  #calendar {
+    gap: 0.1em;
+  }
+#calendar th,
+  #calendar td {
+    font-size: 0.8em; /* Further reduce font size */
+    aspect-ratio: 1; /* Ensure cells remain square */
+  }
+}
+@keyframes fadeInSequential {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+/* Adjustments for smaller screens */
+@media (max-width: 576px) {
+    #calendar {
+        font-size: 1rem; /* Slightly reduce the font size */
+        padding: 0.5rem;
+    }
+#calendar td, #calendar th {
+        padding: 0.5rem;
+        height: 2.5rem;
+    }
+}
+/* Additional styles from the original code */
+#mainTxt {
+    color: #FFF;
+    text-align: center;
+    display: flex;
+    margin: 1rem 0;
+}
+#carouselCont {
+    margin-left: .1rem;
+  	margin-top: 1rem;
+    margin-bottom: 1rem;
+width: 100%;
+}
+#carouselImg {
+    object-fit: cover;
+}
+#carouselImg:hover {
+    filter: brightness(85%);
+}
+#carouselCaption {
+    margin: auto;
+    max-width: 40%;
+}
+#carouselTitle {
+    color: var(--deepblue);
+    background-color: var(--yellow);
+    margin: auto;
+    font-size: 2rem;
+    border-radius: 10px;
+    margin-bottom: 0.5rem;
+    padding: auto 2rem;
+}
+#carouselSubtitle {
+    color: var(--deepblue);
+    background-color: var(--white);
+    border-radius: 10px;
+}
+.carousel-control-next, .carousel-control-prev {
+}
+#previous:hover,
+#next:hover {
+    transform: scale(130%);
+    transition: all ease-in-out;
+}
+#rusuCont {
+    position: relative;
+}
+#rusuCont:hover {
+    transform: scale(101%);
+    transition: ease-in-out;
+    transition-duration: 0.1s;
+}
+#rusuOfficersImg {
+    width: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+#rusuOfficersTxt {
+    position: absolute;
+    background-color: var(--deepblue);
+    color: var(--white);
+    right: 0;
+    bottom: 10px;
+    padding: 1rem;
+    font-size: 2rem;
+}
+#imgNavSect {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin: 4rem auto;
+  	transform: translateX(-30px);
+}
+#imgNav1,
+#imgNav2,
+#imgNav3,
+#imgNav4 {
+    border-radius: 100px;
+    width: 200px;
+    height: 200px;
+    margin: 1rem;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+}
+#imgNav1:hover,
+#imgNav2:hover,
+#imgNav3:hover,
+#imgNav4:hover {
+    text-decoration: none !important;
+    transform: scale(105%);
+    transition-duration: 0.1s;
+}
+#imgNav1 {
+    background-image: url(https://assets-cdn.sums.digital/RD/website-assets/webp/Join-a-club.webp);
+    animation: float 3s ease-in-out infinite;
+}
+#imgNav2 {
+    background-image: url(https://assets-cdn.sums.digital/RD/website-assets/webp/Advice-Service.webp);
+    animation: float 3.5s ease-in-out infinite;
+}
+#imgNav3 {
+    background-image: url(https://assets-cdn.sums.digital/RD/website-assets/Images/su_app1.png);
+    animation: float 4s ease-in-out infinite;
+}
+#imgNav4 {
+    background-image: url(https://assets-cdn.sums.digital/RD/website-assets/Images/merch_store_thumbnail.png);
+    animation: float 4.5s ease-in-out infinite;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+}
+.top-calender {
+    background-color: var(--deepblue) !important;
+    color: white !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+table#calendar {
+    padding: 1rem;
+}
+.carousel-control-prev {
+  border-radius:10px 0 0 10px;
+}
+  
+.carousel-control-next {
+    border-radius:0px 10px 10px 0px;
+  }
+.carousel-control-prev,
+.carousel-control-next {
+    background-color: var(--black);
+  	border: none;
+}
+  
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+        background-color: var(--black);
+}
+.bottom-calendar {
+    background-color: var(--spring-green) !important;
+    height: auto !important;
+}
+#global-calendar .top-calender table td#today:before {
+    background: #F2515D !important
+}
+td.noti:after {
+    background: #FFFFFF !important
+}
+#global-calendar .top-calender table td.selected:before {
+    background: #22c4a4 !important
+}
+#global-calendar .event-item.current {
+    background-color: var(--yellow) !important;
+}
+.bottom-calendar::-webkit-scrollbar {
+    display: none;
+}
+.elegant-calencar {
+    border-radius: 1rem;
+    overflow: hidden;
+}
+.head-day,
+.head-day-name,
+.head-month,
+.head-year {
+    text-align: center;
+    font-weight: 600;
+    font-family: changa one, calibri;
+}
+.head-month {
+    font-size: 2rem;
+    margin-borrom: 0;
+}
+.head-year {
+    font-size: 1.5rem;
+}
+#global-calendar {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.cal-btn-cont {
+    display: flex;
+    justify-content: space-around;
+}
+#today {
+    background-color: var(--yellow);
+    color: var(--deepblue);
+    border-radius: 10px;
+    font-weight: 800;
+}
+.visible-date.noti {}
+.visible-datetd.noti:after {
+    background: var(--springGreen) !important;
+    border-radius: 10px;
+    bottom: 0;
+    content: "";
+    height: 2px;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    width: 50%;
+}
+#global-calendar .top-calender table td.selected {
+    color: var(--deepblue);
+    background-color: var(--springGreen);
+    font-weight: 800;
+    border-radius: 10px;
+    position: relative;
+    z-index: 1;
+}
+#global-calendar .top-calender table td.visible-date {
+    cursor: pointer;
+}
+.event-item {
+    display: none;
+}
+.event-item.active {
+    display: block;
+    padding: 1rem;
+    color: var(--deepblue);
+    text-decoration: none !important;
+    font-weight: 500;
+}
+/* Add this rule to target the days with events and add the underline */
+td.noti {
+    position: relative;
+}
+/* Add this rule to create the underline under the days with events */
+td.noti::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -5px;
+    height: 2px;
+    background-color: var(--yellow) !important;
+    border-radius: 2px;
+}
+.bubble {
+    bottom: -50px;
+    position: absolute;
+    right: -80px;
+    font-weight: bolder;
+    width: fit-content;
+    overflow: hidden;
+    align-items: center;
+    display: inline-table;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.bubble:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+/* Additional media query adjustments */
+@media(max-width:576px) {
+    #carouselTitle {
+        font-size: 1.2rem !important;
+    }
+#rusuOfficersTxt {
+        padding: 0.5rem;
+    }
+td {
+        padding: 0.6rem;
+    }
+#imgNav1,
+    #imgNav2,
+    #imgNav3,
+    #imgNav4 {
+        border-radius: 100px;
+        width: 130px;
+        height: 130px;
+        margin: 0.5rem;
+        object-fit: cover;
+        background-position: center;
+        background-size: cover;
+    }
+#adviceBg,
+    #whatsonBg,
+    #EDSBg,
+    #joinBg {
+    }
+#feedbackBtn {
+        bottom: 40px;
+        right: -23px;
+        font-size: 0.8rem;
+    }
+}
+#snow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 1000;
+}
+#feedback-btn {
+    border: none;
+    position: absolute;
+    bottom: 80px;
+    right: -25px;
+    transform: rotate(90deg);
+    z-index: 10;
+    background-color: var(--sea-blue);
+    color: var(--deep-blue);
+    text-decoration: none;
+    padding: 0 10px;
+    border-radius: 0 0 5px 5px;
+}
+#feedback-btn:hover {
+    background-color: var(--deep-blue);
+    color: var(--sea-blue);
+    transition: all 0.3s ease;
+}
+</style>
+<div class="container-fluid px-0">
+    <div class="bg-wall"></div>
+<!---
+    <div id="snow"></div>
+    -->
+    
+
+ 
+  
+    <div class="container">
+    <!-- carousel -->
+    <div id="carouselCont" class="row">
+        <div
+            id="carouselControls"
+            class="carousel slide carousel-fade"
+            data-bs-ride="carousel"
+            data-bs-interval="5000"
+        >
+            <div class="carousel-inner" style="border-radius: 10px; overflow: hidden;">
+
+                <!-- Slide 1: Generic Freshers image -->
+                <div class="carousel-item active">
+                    <a href="https://readingsu.co.uk/freshers/events">
+                        <img
+                            class="d-block w-100"
+                            src="https://assets-cdn.sums.digital/RD/assets_public/homepage_carousel/Freshers_Website_Carousel.png"
+                            alt="Freshers events at Reading Students’ Union"
+                            style="border-radius: 10px;"
+                        >
+                    </a>
+                    <div class="carousel-caption d-sm-block"></div>
+                </div>
+                <!-- Slide 5: Freshers Fair Invite -->
+                <div class="carousel-item">
+                    <a href="https://readingsu.co.uk/freshers">
+                        <img
+                            class="d-block w-100"
+                            src="https://assets-cdn.sums.digital/RD/assets_public/home_carousel/Website_-_Carousel.png"
+                            alt="Freshers & returners invited"
+                            style="border-radius: 10px;"
+                        >
+                    </a>
+                    <div class="carousel-caption d-sm-block"></div>
+                </div>
+                <!-- Slide 2: Freshers events lineup -->
+                <div class="carousel-item">
+                    <a href="https://readingsu.co.uk/freshers/events">
+                        <img
+                            class="d-block w-100"
+                            src="https://assets-cdn.sums.digital/RD/assets_public/homepage_carousel/For_web_-_Freshers_Mojos_Events_Lineup_Carousel.png"
+                            alt="Freshers events at Reading Students’ Union"
+                            style="border-radius: 10px;"
+                        >
+                    </a>
+                    <div class="carousel-caption d-sm-block"></div>
+                </div>
+
+                <!-- Slide 3: Freshers fairs -->
+                <div class="carousel-item">
+                    <a href="https://readingsu.co.uk/freshers/events">
+                        <img
+                            class="d-block w-100"
+                            src="https://assets-cdn.sums.digital/RD/assets_public/homepage_carousel/freshers_fairs_web_carousel.png"
+                            alt="Freshers events at Reading Students’ Union"
+                            style="border-radius: 10px;"
+                        >
+                    </a>
+                    <div class="carousel-caption d-sm-block"></div>
+                </div>
+
+                <!-- Slide 4: Freshers get-togethers -->
+                <div class="carousel-item">
+                    <a href="https://readingsu.co.uk/freshers/events">
+                        <img
+                            class="d-block w-100"
+                            src="https://assets-cdn.sums.digital/RD/assets_public/homepage_carousel/get_togethers_web_carousel.png"
+                            alt="Freshers events at Reading Students’ Union"
+                            style="border-radius: 10px;"
+                        >
+                    </a>
+                    <div class="carousel-caption d-sm-block"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselControls" data-bs-slide="prev">
+                    <i class="bi bi-caret-left"></i>
+                    <span class="visually-hidden-focusable">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselControls" data-bs-slide="next">
+                    <span class="visually-hidden-focusable">Next</span>
+                    <i class="bi bi-caret-right"></i>
+                </button>
+<!-- Feedback Button -->
+                <a id="feedback-btn" href="/feedback" class="">Feedback</a>
+</div>
+        </div>
+        <!-- end carousel -->
+<!--count down
+                  <div class="container text-center mb-3">
+                    <h2 class="text-danger" style="font-family: 'Changa One', cursive; font-weight: 700;">Voting for Autumn Leadership Elections will close in:</h2>
+<h3 class="title title-rectangle rectangle-spring-green text-center col-10 col-sm-7 mb-0" id="days"></h3>
+                <h6 class="title title-rectangle rectangle-sea-blue col-6 col-sm-4 text-center" id="hours"></h6>
+                <h6 class="title title-rectangle rectangle-afterglow col-6 col-sm-4 text-center" id="mins"></h6>
+              </div>
+                  --->    
+         
+                      
+                      
+<!-- Main content -->
+        <div class="row">
+            <div class="col-12">
+                <section class="container my-2">
+                    <!-- Sign in message with improved styling -->
+                    <div class="mute text-center text-muted mb-4">
+                        <i class="fas fa-info-circle me-2"></i>
+                        To get the most out of our website we recommend signing in first.
+                    </div>
+                
+                    <!-- Main hero section -->
+                    <section class="hero-section p-1 p-md-4 bg-blur-deep-blue shadow-lg mb-4 rounded-lg border">
+                        <div class="container">
+                            <div class="row justify-content-center"> 
+                                <!-- Main title -->
+                                <div class="col-12 col-lg-6 mb-4 mb-lg-0 d-flex justify-content-center" style="align-self: center;">
+                                    <h1 class="title title-rectangle rectangle-sea-blue text-white py-3 text-center">
+                                        Reading Students' Union
+                                    </h1>
+                                </div>
+                                <div class="col-12 col-lg-6 mb-4 mb-lg-0 d-flex justify-content-center">
+                                    <!-- Subtitle -->
+                                    <h2 class="title title-cloud cloud-afterglow text-white px-4 py-4 text-bottom" style="align-self: bottom;">
+                                        A place where you belong
+                                    </h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="imgNavSect">
+                            <a style="text-decoration: none;" href="/student-opportunities" id="imgNav1">
+                                <div id="joinBg" class="font-primary organic oval-cerise imgNavTxt chantal bubble">Join a Club</div>
+                            </a>
+                            <a style="text-decoration: none" href="/advice-&-support" id="imgNav2">
+                                <div id="EDSBg" class="font-primary organic oval-afterglow chantal bubble">Advice & Support</div>
+                            </a>
+                            <a style="text-decoration: none" href="/app" id="imgNav3">
+                                <div id="whatsonBg" class="font-primary organic oval-spring-green chantal bubble">SU App</div>
+                            </a>
+                            <a style="text-decoration: none" href="/shop" id="imgNav4">
+                                <div id="adviceBg" class="font-primary organic oval-sea-blue chantal bubble">Merch Store</div>
+                            </a>
+                            
+                            <style>
+                            @keyframes float {
+                                0% {
+                                    transform: translateY(0);
+                                }
+                                50% {
+                                    transform: translateY(-10px);
+                                }
+                                100% {
+                                    transform: translateY(0);
+                                }
+                            }
+                        
+                            #imgNav1, #imgNav2, #imgNav3, #imgNav4 {
+                                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                            }
+                            
+                            #imgNav1:hover, #imgNav2:hover, #imgNav3:hover, #imgNav4:hover {
+                                transform: translateY(-20px);
+                                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+                            }
+                            </style>
+                        </div>
+                    </section>
+                    <!-- end image navigation section -->
+<!-- full time officers -->
+                    <section class="container">
+                        <div id="rusuCont">
+                            <a href="/student-voice/student-reps">
+                                <img loading="lazy" id="rusuOfficersImg"
+                                    src="https://assets-cdn.sums.digital/RD/assets_public/home/officers-home.png"
+                                    alt="A warm welcome from Reading Students' Union's full-time officers, including Welfare officer, Education Officer, President, Activities & Opportunities officer and Inclusion & Communities officer. ">
+                            </a>
+                        </div>
+                    </section>
+                    <!-- end officers section -->
+<!-- Calendar Section -->
+                   <div class="row mt-4 justify-content-center pb-4">
+                     
+                     
+                  
+                     
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+                    <div id="global-calendar" class="text-white col bg-deep-blue rounded-xl col-12">
+                      
+                          <a href="/events" class="text-muted"><h2 class="title title-rectangle rectangle-cerise">What's On</h2></a>
+                      
+                      
+                      
+                        <div class="cal-header">
+                            <div class="row align-items-center">
+                                <div class="col-2">
+                                    <button id="prevMonth" class="cal-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="col-8 text-center">
+                                    <button id="currentMonthYear" class="cal-month" onclick="getEvents(null, currentDate)">
+                                        <span id="monthName"></span>
+                                        <span id="year"></span>
+                                    </button>
+                                </div>
+                                <div class="col-2 text-end">
+                                    <button id="nextMonth" class="cal-btn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <table id="calendar" class="table text-center text-light mb-0">
+                                <tbody id="calendarBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+<!-- Events Section -->
+                    <div id="secondTxt" class="col-md-6 mt-4 col-12">
+                        <div id="no-events" class="border border-sea-blue p-3 rounded-4 text-center bg-deep-blue text-white my-3" style="display: none;">
+                            <h5>No events found!</h5>
+                            <p class="text-muted">Check out <a href="/events" class="text-muted">events</a> for more details.</p>
+                        </div>
+                       
+                      
+                        <div id="event-list" class="row g-4"></div>
+                    </div>
+                   </div>
+<script>
+const siteId = '0EDRyGkI2vMw27Nh57gO3f';
+const apiUrl = 'https://pluto.sums.digital/api';
+let currentDate = moment();
+let selectedDate = currentDate;
+let currentPage = 1;
+let totalPages = 1;
+function createDownloadData(eventDetails) {
+    const { title, description, location, startDate, endDate, timezone } = eventDetails;
+// Improved filename sanitization
+    const sanitizedTitle = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_') // Replace any non-alphanumeric chars with underscore
+        .replace(/^_+|_+$/g, '') // Remove leading/trailing underscores
+        .substring(0, 30); // Limit length to 30 characters
+const eventDate = moment(startDate, 'YYYYMMDDTHHmmss').format('YYYYMMDD');
+    const filename = `RSU_${eventDate}_${sanitizedTitle}.ics`;
+// Create the .ics file content
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//READING_SU//NONSGML v1.0//EN
+BEGIN:VEVENT
+SUMMARY:${title}
+DESCRIPTION:${description}
+LOCATION:${location}
+DTSTART;TZID=${timezone}:${startDate}
+DTEND;TZID=${timezone}:${endDate}
+STATUS:CONFIRMED
+SEQUENCE:0
+BEGIN:VALARM
+TRIGGER:-PT10M
+DESCRIPTION:Reminder
+ACTION:DISPLAY
+END:VALARM
+END:VEVENT
+END:VCALENDAR`;
+// Create a Blob and download link
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+// Create download link
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.download = filename;
+return {
+        url: url,
+        link: downloadLink,
+        filename: filename,
+    };
+}
+function getEvents(date = null, month = null, onlyFuture = 0, futureOrOngoing = 0) {
+    var MAX_EVENTS = 3; // Maximum number of events to display
+$('#loading-events').show();
+    $('#no-events').hide();
+    $('#event-list').empty();
+// Prepare data for API request
+    const data = {};
+// If a specific date is provided, fetch events for that day
+    if (date) {
+        const dateToFetch = date.format('YYYY-MM-DD');
+        console.log('Fetching events for date: ' + dateToFetch);
+        data.dayDate = dateToFetch;
+        data.onlyFuture = onlyFuture;
+        data.sortBy = 'start_date';
+        data.perPage = 200;
+    }
+// If future or ongoing events are requested
+    if (futureOrOngoing) {
+        data.futureOrOngoing = futureOrOngoing;
+    }
+// If month is provided, fetch events after that date
+    if (month) {
+        const formattedMonth = moment(month).startOf('day');
+        console.log('Fetching events after start date: ' + formattedMonth.format('YYYY-MM-DD'));
+        data.date = formattedMonth.format('YYYY-MM');
+    }
+// Make the API request
+    $.ajax({
+        url: apiUrl + '/events?' + $.param(data),
+        type: 'GET',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-Site-Id', siteId);
+        },
+        success: function (response) {
+            $('#loading-events').hide();
+            console.log('Response:', response);
+if (response.data.length === 0) {
+                $('#no-events').show();
+            } else {
+                var eventCount = 0;
+                {!-- sort data by start date --}
+                response.data.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+                response.data.forEach(function (event) {
+                    const eventDetails = {
+                        title: event.title,
+                        description: event.short_description || "Untitled Event",
+                        location: "Reading Student's Union",
+                        startDate: moment(event.start_date).format('YYYYMMDDTHHmmss'),
+                        endDate: moment(event.end_date).format('YYYYMMDDTHHmmss'),
+                        timezone: 'Europe/London',
+                    };
+const downloadDATA = createDownloadData(eventDetails);
+eventCount++;
+                    var isHidden = eventCount > MAX_EVENTS ? 'd-none' : '';
+                    const delay = eventCount * 200; // 200ms delay between each event
+                    $('#event-list').append(`
+                    <div class="px-3 m-1 ${isHidden} w-100" style="opacity: 0; animation: fadeInSequential 0.5s ease-out ${delay}ms forwards;">
+                        <a href="/whats-on/id/${event.event_id}-${event.url_name}" 
+                           class="text-decoration-none event-link"
+                           aria-label="View event: ${event.title}">
+                            <div class="card card text-white bg-primary border-info mb-3 rounded-3 hover-effect">
+                                <div class="card-body p-4">
+                                    <h5 class="text-white card-title mb-3">${event.title}</h5>
+                                    <p class="mb-3 text-muted">${event.short_description}</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="far fa-calendar-alt me-2"></i>
+                                            ${moment(event.start_date).format('DD MMMM YYYY')}
+                                        </small>
+                                        <div class="d-flex gap-2">
+                                            <a href="/whats-on/id/${event.event_id}-${event.url_name}"
+                                             class="btn btn-outline-secondary mx-1 btn-sm rounded"
+                                             aria-label="View event: ${event.title}">
+                                             <i class="fas fa-ticket me-1"></i>
+                                             Book Now
+                                            </a>
+                                            <a href="${downloadDATA.url}"
+                                            class="btn btn-danger btn-sm rounded"
+                                            aria-label="Download event: ${event.title}">
+                                            <i class="fa-solid fa-calendar-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                `);
+                });
+if (eventCount > MAX_EVENTS) {
+                    $('#event-list').append(`
+                    <div class="p-3 w-100 text-center">
+                        <button id="showMoreEvents" class="btn btn-outline-primary btn-sm" onclick="showMoreEvents()">
+                            <i class="fas fa-calendar-day me-2"></i>
+                            Show More
+                        </button>
+                        </div>
+                    `);
+                }
+            }
+        },
+        error: function (xhr, status, error) {
+            $('#loading-events').hide();
+            $('#no-events').show();
+            console.error('Error fetching events:', error);
+        },
+    });
+}
+function showMoreEvents() {
+    currentPage++;
+    const events = $('#event-list').children();
+    const totalEvents = events.length;
+    const maxEvents = currentPage * 30;
+for (let i = 0; i < totalEvents; i++) {
+        if (i < maxEvents) {
+            $(events[i]).removeClass('d-none');
+        } else {
+            $(events[i]).addClass('d-none');
+        }
+    }
+if (maxEvents >= totalEvents) {
+        $('#showMoreEvents').hide();
+    }
+}
+function getNoOfEvents(month, callback) {
+    const startOfMonth = month.clone().startOf('month').format('YYYY-MM');
+let data = {
+        sortBy: 'start_date',
+        date: startOfMonth,
+        perPage: 200,
+    };
+$.ajax({
+        url: apiUrl + '/events?' + $.param(data),
+        type: 'GET',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-Site-Id', siteId);
+        },
+        success: function (response) {
+            if (response.data) {
+                const eventCounts = {};
+                response.data.forEach(event => {
+                    const eventDate = event.start_date.split('T')[0];
+                    eventCounts[eventDate] = (eventCounts[eventDate] || 0) + 1;
+                });
+                callback(eventCounts);
+            }
+        }
+    });
+}
+function renderCalendar(date) {
+    const startOfMonth = date.clone().startOf('month');
+    const endOfMonth = date.clone().endOf('month');
+    const startDay = startOfMonth.day(); // Day of the week the month starts on
+    const today = new Date();
+    const todayDate = today.getDate();
+    const todayMonth = today.getMonth();
+    const todayYear = today.getFullYear();
+// Update the current month and year display
+    $('#currentMonthYear').text(date.format('DD MMMM YYYY'));
+// Update the placeholder text for the current month
+    $('#whatsOnThisMonthPlaceholder').text(date.format('MMMM'));
+// Clear the calendar body
+    const calendarBody = $('#calendarBody');
+    $('#calendarBody').addClass('transitioning');
+    calendarBody.empty();
+    
+    setTimeout(() => {
+        const startOfMonth = date.clone().startOf('month');
+        $('#calendarBody').removeClass('transitioning');
+    }, 250);
+    let currentRow = $('<tr>');
+// Add weekday headers
+    const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    weekdays.forEach(day => {
+        currentRow.append(`<th class="font-primary calendar-weekday">${day}</th>`);
+    });
+    calendarBody.append(currentRow);
+    currentRow = $('<tr>'); // Reset current row after adding weekday headers
+// Add padding to the first row for the days before the first day of the month
+    for (let i = 0; i < startDay; i++) {
+        currentRow.append('<td class="padding-day"></td>');
+    }
+// Fetch the number of events asynchronously
+    getNoOfEvents(date, function (eventCounts = {}) {
+        let currentDay = startOfMonth.clone();
+// Loop through each day in the month
+        while (currentDay <= endOfMonth) {
+            const dayStr = currentDay.format('YYYY-MM-DD');
+            const isToday =
+                currentDay.date() === todayDate &&
+                currentDay.month() === todayMonth &&
+                currentDay.year() === todayYear;
+// Create the day cell
+            const dayCell = $(`
+                <td class="calendar-day${isToday ? ' today' : ''}">
+                    ${currentDay.date()}
+                </td>
+            `);
+            // Add event dots if there are events
+            const noOfEvents = eventCounts[dayStr] || 0;
+            var noOfEventDot = 0;
+            if (noOfEvents > 0) {
+                for (let i = 0; i < noOfEvents; i++) {
+                    noOfEventDot++;
+                    if (noOfEventDot > 3) {
+                        break;
+                    }
+                    dayCell.append('<span class="event-dot"></span>');
+                }
+            }
+currentRow.append(dayCell);
+// Close the row and start a new one if it's Saturday
+            if (currentDay.day() === 6) {
+                calendarBody.append(currentRow);
+                currentRow = $('<tr>');
+            }
+// Move to the next day
+            currentDay.add(1, 'day');
+        }
+// Append any remaining days in the last row
+        if (currentRow.children().length > 0) {
+            calendarBody.append(currentRow);
+        }
+    });
+// Fetch events for the current date
+    getEvents(null, date, 0, 1);
+}
+$(document).on('click', '.calendar-day', function () {
+    $('.calendar-day').removeClass('selected');
+    $(this).addClass('selected');
+    const dayText = $(this).text();
+    const selectedDate = moment(currentDate).date(parseInt(dayText));
+    console.log('Selected date:', selectedDate.format('YYYY-MM-DD'));
+    getEvents(selectedDate);
+});
+$('#prevMonth').on('click', function() {
+    currentDate.subtract(1, 'month');
+    renderCalendar(currentDate);
+});
+$('#nextMonth').on('click', function() {
+    currentDate.add(1, 'month');
+    renderCalendar(currentDate);
+});
+$(document).ready(function() {
+    renderCalendar(currentDate);
+});
+</script>
+        <!-- end calendar and what's on -->
+          <!-- Homepage: Featured news/blog cards section -->
+          {embed="custom-builds/.home_featured_news"}
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+                var script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js';
+                script.onload = function(){
+                    particlesJS("snow", {
+                        "particles": {
+                            "number": {
+                                "value": 200,
+                                "density": {
+                                    "enable": true,
+                                    "value_area": 800
+                                }
+                            },
+                            "color": {
+                                "value": "#ffffff"
+                            },
+                            "opacity": {
+                                "value": 0.7,
+                                "random": false,
+                                "anim": {
+                                    "enable": false
+                                }
+                            },
+                            "size": {
+                                "value": 5,
+                                "random": true,
+                                "anim": {
+                                    "enable": false
+                                }
+                            },
+                            "line_linked": {
+                                "enable": false
+                            },
+                            "move": {
+                                "enable": true,
+                                "speed": 5,
+                                "direction": "bottom",
+                                "random": true,
+                                "straight": false,
+                                "out_mode": "out",
+                                "bounce": false,
+                                "attract": {
+                                    "enable": true,
+                                    "rotateX": 300,
+                                    "rotateY": 1200
+                                }
+                            }
+                        },
+                        "interactivity": {
+                            "events": {
+                                "onhover": {
+                                    "enable": false
+                                },
+                                "onclick": {
+                                    "enable": false
+                                },
+                                "resize": false
+                            }
+                        },
+                        "retina_detect": true
+                    });
+                }
+                document.head.append(script);
+            });
+        </script>
+  
+  
+     <script>
+// Set the date we're counting down to
+var countDownDate = new Date("October 17, 2025 17:00:00").getTime();
+// Update the count down every 1 second
+var x = setInterval(function() {
+// Get today's date and time
+  var now = new Date().getTime();
+    
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+    
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+	document.getElementById("days").innerHTML = days + ' Days';
+  document.getElementById("hours").innerHTML = hours + " Hours ";
+  document.getElementById("mins").innerHTML =  minutes + " Minutes";
+  document.getElementById("secs").innerHTML =  seconds + "s ";
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("days").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+       
+{embed="global/.footer"}
