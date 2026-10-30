@@ -4,6 +4,26 @@
 <link rel="stylesheet" href="https://assets-cdn.sums.digital/RD/digital_development/the-feedbackloop/css/global.css">
 <link rel="stylesheet" href="https://assets-cdn.sums.digital/RD/digital_development/the-feedbackloop/css/home.css?v=20261030-1">
 
+<style>
+  /* Page-level overrides. These live here rather than in home.css so they
+     ship with the page instead of waiting on a CDN upload. */
+
+  /* The banner used to take its top margin from the .hub-page-heading block
+     above it. That heading is gone, so give the banner its own spacing. */
+  .hub-banner {
+    margin-top: clamp(24px, 3vw, 40px);
+  }
+
+  /* The platform's own a:hover rule re-underlines the section buttons,
+     overriding the text-decoration: none they already carry. */
+  .hub-nav__button:hover,
+  .hub-nav__button:focus,
+  .hub-nav__button:focus-visible,
+  .hub-nav__button:active {
+    text-decoration: none;
+  }
+</style>
+
 
 <main class="feedbackloop-home">
   <section class="page-container hub-banner" data-page-load>
